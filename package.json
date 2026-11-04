@@ -1,6 +1,6 @@
 {
   "name": "glass-ux-ide",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A code editor, reusable editing components and backend interfaces for Glass UX applications.",
   "type": "module",
   "license": "MIT",

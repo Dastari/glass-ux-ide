@@ -1,7 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.1.2 (4 November 2026)
 
+- Uses glass-ux 0.16.1 and the matching docs kit, including the darker dark Flat canvas.
 - Needs glass-ux 0.16. `TimelineView` uses ActivityFeed's timeline variant: the steps are joined by a
   rail, and each time follows its step's text so labels fit a side drawer.
 
