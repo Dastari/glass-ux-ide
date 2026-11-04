@@ -496,7 +496,7 @@ test.describe("a huge file", () => {
     await open(page)
     await fileRow(page, "events-2026-10.ndjson").click()
     await expect(rows(page).first()).toContainText('{"line":0000000000000')
-    await expect(page.locator(".gux-workbench-status")).toContainText("100 GB")
+    await expect(page.locator(".gux-workbench-status")).toContainText("107.4 GB")
     await page.keyboard.press("Control+End")
     await expect(rows(page).filter({ hasText: "0000838860799" }).first()).toBeVisible()
     await expect(page.locator(".gux-workbench-status")).toContainText("838,860,801")

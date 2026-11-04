@@ -52,6 +52,7 @@ export default defineWorkbenchPack("zh-Hans", {
   explorer: "资源管理器",
   openEditors: "打开的编辑器",
   search: "搜索",
+  searchHint: "输入即可搜索所有文件。",
   searchInFiles: "在文件中搜索",
   changes: "更改",
   noChanges: "没有未保存的更改",

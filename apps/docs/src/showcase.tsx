@@ -33,7 +33,7 @@ const nameOf = (path: string) => path.split("/").pop() ?? path;
 function NoteWindow({ params }: WindowContentProps<{ path: string }>) {
   return (
     <Window.Body variant="fill">
-      <CodeEditor aria-label={nameOf(params.path)} defaultValue={SOURCES[params.path]} lexer={typescriptLexer} />
+      <CodeEditor aria-label={nameOf(params.path)} defaultValue={SOURCES[params.path]} lexer={typescriptLexer} framed={false} />
     </Window.Body>
   );
 }
@@ -67,7 +67,7 @@ function WindowsDemo() {
   return (
     <WindowManagerProvider manager={manager}>
       <div className="showcase-windows">
-        <Workspace primaryLabel="Code windows" primary={<OpenButtons />} />
+        <Workspace className="showcase-workspace" primaryLabel="Code windows" primary={<OpenButtons />} />
       </div>
     </WindowManagerProvider>
   );
@@ -134,13 +134,13 @@ export function Showcase() {
           <Panel>
             <PanelHeader title="CodeEditor" />
             <PanelBody className="showcase-editor-body">
-              <CodeEditor aria-label="Example" defaultValue={SOURCES["src/sync/policy.ts"]} lexer={typescriptLexer} />
+              <CodeEditor aria-label="Example" defaultValue={SOURCES["src/sync/policy.ts"]} lexer={typescriptLexer} framed={false} />
             </PanelBody>
           </Panel>
           <Panel>
             <PanelHeader title="CodeViewer" />
             <PanelBody className="showcase-editor-body">
-              <CodeViewer aria-label="Example" value={SOURCES["src/sync/types.ts"]} lexer={typescriptLexer} />
+              <CodeViewer aria-label="Example" value={SOURCES["src/sync/types.ts"]} lexer={typescriptLexer} framed={false} />
             </PanelBody>
           </Panel>
         </div>

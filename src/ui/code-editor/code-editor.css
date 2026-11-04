@@ -6,6 +6,15 @@
 .gux-code-editor .gux-editor {
   --gux-bg: var(--glass-fill-code, var(--canvas-solid));
 }
+/* On its own, an editor has an edge and corners like any control. */
+.gux-code-editor[data-framed] {
+  overflow: hidden;
+  border-radius: var(--radius-control);
+  box-shadow: inset 0 0 0 var(--border-width) var(--line);
+}
+.gux-code-editor[data-framed] .gux-editor {
+  --gux-bg: var(--fill-muted);
+}
 .gux-code-field {
   overflow: hidden;
   border-radius: var(--radius-control);

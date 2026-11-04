@@ -9,6 +9,7 @@ import { IconCopy, IconExternalLink, IconFile, IconTrash } from "glass-ux/icons"
 import { Tree, type TreeHandle, type TreeNode } from "glass-ux/tree"
 import { workbenchMessages } from "./messages.ts"
 import { WorkbenchContext } from "./context.ts"
+import "./workbench.css"
 
 /** What `ref` gives on {@link FileExplorer}. */
 export interface FileExplorerHandle {

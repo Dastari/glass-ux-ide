@@ -29,6 +29,7 @@ export const workbenchMessages = defineMessages("ideWorkbench", {
   openEditors: "Open editors",
   search: "Search",
   searchInFiles: "Search in files",
+  searchHint: "Type to search every file.",
   searchResults: ({ count, files, locale }: { count: number; files: number; locale: string }) => plural(locale, count, { one: `${count} result in ${files} files`, other: `${count} results in ${files} files` }),
   changes: "Changes",
   noChanges: "No unsaved changes",

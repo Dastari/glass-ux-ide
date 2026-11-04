@@ -3,6 +3,7 @@
 // tokens:allow-file boxes that give a demo the definite height its component needs
 import { useEffect, type ReactNode } from "react";
 import { memoryFiles } from "glass-ux/file-provider/memory";
+import { Panel, PanelBody, PanelHeader } from "glass-ux/surface";
 import { Example, SectionPage, Specimen } from "glass-ux-docs-kit/react";
 import { typescriptLexer } from "../../languages/typescript/index.js";
 import { OutputPanel, WorkbenchProvider, useWorkbench } from "../../ui/workbench/index.js";
@@ -11,8 +12,8 @@ const MAIN = "example:///src/main.ts";
 const project = memoryFiles(
   {
     "src/main.ts": 'const unused = 1\n\nconsole.log(greet("harbour"))\n',
-    "src/greet.ts": "export const greet = (name: string) => `Hello, ${name}`\n",
-    "README.md": "# Example\n",
+    "src/greet.ts": "/** Says hello. */\nexport const greet = (name: string) => `Hello, ${name}`\n",
+    "README.md": "# Example\n\nCall greet with a harbour's name.\n",
   },
   { scheme: "example", label: "Example" },
 );
@@ -37,14 +38,63 @@ const backend = {
 const lexers = { ts: typescriptLexer };
 const opening = [MAIN];
 
-/** A workbench's state with no frame, so one part can show by itself. */
-function Parts({ children, height = "16rem" }: { children: ReactNode; height?: string }) {
+/** A workbench's state with no frame of its own, so a part can show the way an application places it. */
+function Parts({
+  children,
+  height = "16rem",
+  edited = false,
+}: {
+  children: ReactNode;
+  height?: string;
+  edited?: boolean;
+}) {
   return (
     <div className="w-full" style={{ blockSize: height }}>
-      <WorkbenchProvider backend={backend} lexers={lexers} initialFiles={opening}>
+      <WorkbenchProvider backend={backend} lexers={lexers} initialFiles={opening} recovery={null}>
+        {edited ? <Edits /> : null}
         {children}
       </WorkbenchProvider>
     </div>
+  );
+}
+
+/** Makes two edits to main.ts once it opens, so changes and history have something to show. */
+function Edits() {
+  const { store } = useWorkbench();
+  useEffect(() => {
+    let done = false;
+    const stop = store.subscribe(() => {
+      const record = store.get(MAIN);
+      if (done || !record) return;
+      done = true;
+      void (async () => {
+        const { handle } = record.opened;
+        store.changed(
+          MAIN,
+          await handle.edit([{ start: 0, end: 5, text: "let" }], { label: "Rename to let" }),
+        );
+        store.changed(
+          MAIN,
+          await handle.edit([{ start: 0, end: 0, text: "// Greets a harbour.\n" }], {
+            label: "Add a comment",
+          }),
+        );
+      })();
+    });
+    return () => {
+      stop();
+    };
+  }, [store]);
+  return null;
+}
+
+/** A part in a panel, as it would sit in an application. */
+function Framed({ title, children }: { title?: string; children: ReactNode }) {
+  return (
+    <Panel className="h-full">
+      {title ? <PanelHeader title={title} level={3} /> : null}
+      <PanelBody className="min-h-0 flex-1 p-0!">{children}</PanelBody>
+    </Panel>
   );
 }
 
@@ -64,9 +114,11 @@ export default function WorkbenchSection() {
         specimenKey="workbench:default:9"
       >
         <Example label="After a save" className="w-full">
-          <Parts height="6rem">
+          <Parts height="9rem">
             <Logged>
-              <OutputPanel />
+              <Framed title="Output">
+                <OutputPanel />
+              </Framed>
             </Logged>
           </Parts>
         </Example>

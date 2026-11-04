@@ -14,6 +14,7 @@ Shows code of any size, with the same scrolling and highlighting, and no editing
 | className | `string \| undefined` | See type | no | — | Classes applied to the outer element for layout. Use the component props and theme tokens for its appearance. |
 | describedBy | `string \| undefined` | See type | no | — | The id of an element describing the editor. |
 | document | `DocumentHandle \| undefined` | See type | no | — | A document of any size, from `openFile` or `connectDocument`. Takes priority over `value`. |
+| framed | `boolean \| undefined` | false, true | no | — | Draw the editor's own edge and corners, as a control has. Turn it off inside a panel or window body that already frames it. |
 | lexer | `Lexer \| undefined` | See type | no | — | Highlighting rules, such as `typescriptLexer`. |
 | onStatus | `((status: EditorStatus) => void) \| undefined` | See type | no | — | Reports the caret, the size tier and the line numbers' exactness. |
 | ref | `Ref<CodeEditorHandle> \| undefined` | See type | no | — | Receives the underlying element for focus or measurement. React 19 accepts ref as a normal prop. |

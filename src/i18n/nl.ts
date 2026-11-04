@@ -52,6 +52,7 @@ export default defineWorkbenchPack("nl", {
   explorer: "Verkenner",
   openEditors: "Geopende editors",
   search: "Zoeken",
+  searchHint: "Typ om in alle bestanden te zoeken.",
   searchInFiles: "Zoeken in bestanden",
   changes: "Wijzigingen",
   noChanges: "Geen niet-opgeslagen wijzigingen",

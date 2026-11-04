@@ -52,6 +52,7 @@ export default defineWorkbenchPack("pt-BR", {
   explorer: "Explorador",
   openEditors: "Editores abertos",
   search: "Pesquisar",
+  searchHint: "Digite para pesquisar em todos os arquivos.",
   searchInFiles: "Pesquisar nos arquivos",
   changes: "Alterações",
   noChanges: "Nenhuma alteração não salva",

@@ -9,8 +9,8 @@ const MAIN = "example:///src/main.ts";
 const project = memoryFiles(
   {
     "src/main.ts": 'const unused = 1\n\nconsole.log(greet("harbour"))\n',
-    "src/greet.ts": "export const greet = (name: string) => `Hello, ${name}`\n",
-    "README.md": "# Example\n",
+    "src/greet.ts": "/** Says hello. */\nexport const greet = (name: string) => `Hello, ${name}`\n",
+    "README.md": "# Example\n\nCall greet with a harbour's name.\n",
   },
   { scheme: "example", label: "Example" },
 );
@@ -45,7 +45,7 @@ export default function WorkbenchSection() {
       >
         <Example label="Files in memory" className="w-full">
           <div className="h-144 w-full">
-            <Workbench backend={backend} lexers={lexers} initialFiles={opening} />
+            <Workbench backend={backend} lexers={lexers} initialFiles={opening} recovery={null} />
           </div>
         </Example>
       </Specimen>

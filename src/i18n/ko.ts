@@ -52,6 +52,7 @@ export default defineWorkbenchPack("ko", {
   explorer: "탐색기",
   openEditors: "열린 편집기",
   search: "검색",
+  searchHint: "입력하면 모든 파일을 검색합니다.",
   searchInFiles: "파일에서 검색",
   changes: "변경 사항",
   noChanges: "저장하지 않은 변경 사항 없음",

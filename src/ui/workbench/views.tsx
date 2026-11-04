@@ -19,6 +19,7 @@ import { useWorkbench } from "./context.ts"
 import { FileExplorer, type FileExplorerHandle } from "./file-explorer.tsx"
 import { workbenchMessages } from "./messages.ts"
 import { isDirty } from "./store.ts"
+import "./workbench.css"
 
 const MAX_MATCHES = 2000
 
@@ -88,13 +89,19 @@ export function ExplorerView() {
   )
 }
 
+/** Props of {@link SearchView}. */
+export interface SearchViewProps {
+  /** What to search for at first. */
+  defaultQuery?: string
+}
+
 /** Search across files: `backend.search` when the application has one, otherwise in the page. */
-export function SearchView() {
+export function SearchView({ defaultQuery = "" }: SearchViewProps = {}) {
   const workbench = useWorkbench()
   const messages = useMessages(workbenchMessages)
   const locale = useLocale()
   const dismiss = useDrawerDismiss()
-  const [text, setText] = useState("")
+  const [text, setText] = useState(defaultQuery)
   const [matchCase, setMatchCase] = useState(false)
   const [wholeWord, setWholeWord] = useState(false)
   const [regex, setRegex] = useState(false)
@@ -178,7 +185,7 @@ export function SearchView() {
             }}
           />
         ) : !term ? (
-          <EmptyState icon={<IconSearch />}>{messages.searchInFiles}</EmptyState>
+          <EmptyState icon={<IconSearch />}>{messages.searchHint}</EmptyState>
         ) : null}
       </SectionDrawer.Body>
     </SectionDrawer.Root>

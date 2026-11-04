@@ -20,7 +20,7 @@ import { browserRecovery, canRecover, type RecoveryStore } from "../../backend/r
 import { SaveConflictError } from "../../core/document.ts"
 import { tierOf } from "../../core/tiers.ts"
 import { formatText, languageOf } from "../../format/index.ts"
-import { DocumentSyncBridge } from "./document-sync.tsx"
+import { DiagnosticsBridge, DocumentSyncBridge } from "./document-sync.tsx"
 import { applyTextEdits, editBetween, readerOf } from "./language.ts"
 import type { Lexer } from "../../core/lexer.ts"
 import { codeWindowId, codeWindowInput, codeWindowKind, codeWindowUri } from "./code-window.tsx"
@@ -488,6 +488,7 @@ function Model({ backend, lexers, initialFiles, createWorker = defaultWorker, pa
       <WorkbenchLayoutContext value={areaValue}>
         <WorkbenchCommandsContext value={commands}>
           {children}
+          {backend.diagnostics ? <DiagnosticsBridge store={store} source={backend.diagnostics} /> : null}
           {backend.documents ? <DocumentSyncBridge store={store} sync={backend.documents} /> : null}
           <Dialog.Root open={renaming !== null} onOpenChange={(next) => !next && setRenaming(null)}>
             <Dialog.Popup size="sm">

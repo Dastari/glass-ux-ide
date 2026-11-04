@@ -11,11 +11,18 @@ import { workbenchMessages } from "./messages.ts"
 import { ChangesPanel, OutputPanel, ProblemsPanel, WelcomePanel } from "./panels.tsx"
 import { isDirty, uriOfChanges, uriOfPanel } from "./store.ts"
 
+/** Props of {@link EditorArea}. */
+export interface EditorAreaProps {
+  /** Below this width the layout shows one panel at a time with a strip of the rest. Default "28rem", a phone. */
+  collapseBelow?: `${number}rem`
+  className?: string
+}
+
 /**
  * The tabbed, splittable editors and the panels beneath them. Drag a tab to split, or use its
  * menu. It fills its parent, which needs a definite height.
  */
-export function EditorArea({ className }: { className?: string }) {
+export function EditorArea({ collapseBelow = "28rem", className }: EditorAreaProps) { // tokens:allow a prop default, in rem so it follows UI scale
   const workbench = useWorkbench()
   const area = use(WorkbenchLayoutContext)!
   const messages = useMessages(workbenchMessages)
@@ -56,5 +63,5 @@ export function EditorArea({ className }: { className?: string }) {
     return own ? { title: own.title, icon: own.icon, component: own.component, closable: false, minSize: "6rem", whenHidden: own.keepRunning ? "run" : "pause" } : null // tokens:allow PaneLayout takes rem, which follows UI scale
   }, [clipboard, confirmClose, messages, nameOf, openInWindow, panels, records, showChanges, splitEditor, store])
 
-  return <PaneLayout className={className} panel={panel} layout={area.layout} onLayoutChange={area.onLayoutChange} data-focus-region="" />
+  return <PaneLayout className={className} collapseBelow={collapseBelow} panel={panel} layout={area.layout} onLayoutChange={area.onLayoutChange} data-focus-region="" />
 }

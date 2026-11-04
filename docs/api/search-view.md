@@ -10,3 +10,4 @@ Search across files: `backend.search` when the application has one, otherwise in
 
 | Prop | Type | Valid options | Required | Default | Description |
 | --- | --- | --- | --- | --- | --- |
+| defaultQuery | `string \| undefined` | See type | no | "" | What to search for at first. |

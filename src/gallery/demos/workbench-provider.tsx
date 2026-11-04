@@ -3,18 +3,19 @@
 // tokens:allow-file boxes that give a demo the definite height its component needs
 import { useEffect, type ReactNode } from "react";
 import { memoryFiles } from "glass-ux/file-provider/memory";
+import { Panel, PanelBody, PanelHeader } from "glass-ux/surface";
 import { Example, SectionPage, Specimen } from "glass-ux-docs-kit/react";
 import { typescriptLexer } from "../../languages/typescript/index.js";
 import {
   ChangesPanel,
   ChangesView,
-  TimelineView,
   EditorArea,
   ExplorerView,
   FileExplorer,
   OutputPanel,
   ProblemsPanel,
   SearchView,
+  TimelineView,
   WelcomePanel,
   WorkbenchMenubar,
   WorkbenchProvider,
@@ -26,8 +27,8 @@ const MAIN = "example:///src/main.ts";
 const project = memoryFiles(
   {
     "src/main.ts": 'const unused = 1\n\nconsole.log(greet("harbour"))\n',
-    "src/greet.ts": "export const greet = (name: string) => `Hello, ${name}`\n",
-    "README.md": "# Example\n",
+    "src/greet.ts": "/** Says hello. */\nexport const greet = (name: string) => `Hello, ${name}`\n",
+    "README.md": "# Example\n\nCall greet with a harbour's name.\n",
   },
   { scheme: "example", label: "Example" },
 );
@@ -52,21 +53,97 @@ const backend = {
 const lexers = { ts: typescriptLexer };
 const opening = [MAIN];
 
-/** A workbench's state with no frame, so one part can show by itself. */
-function Parts({ children, height = "16rem" }: { children: ReactNode; height?: string }) {
+/** A workbench's state with no frame of its own, so a part can show the way an application places it. */
+function Parts({
+  children,
+  height = "16rem",
+  edited = false,
+}: {
+  children: ReactNode;
+  height?: string;
+  edited?: boolean;
+}) {
   return (
     <div className="w-full" style={{ blockSize: height }}>
-      <WorkbenchProvider backend={backend} lexers={lexers} initialFiles={opening}>
+      <WorkbenchProvider backend={backend} lexers={lexers} initialFiles={opening} recovery={null}>
+        {edited ? <Edits /> : null}
         {children}
       </WorkbenchProvider>
     </div>
   );
 }
 
+/** Makes two edits to main.ts once it opens, so changes and history have something to show. */
+function Edits() {
+  const { store } = useWorkbench();
+  useEffect(() => {
+    let done = false;
+    const stop = store.subscribe(() => {
+      const record = store.get(MAIN);
+      if (done || !record) return;
+      done = true;
+      void (async () => {
+        const { handle } = record.opened;
+        store.changed(
+          MAIN,
+          await handle.edit([{ start: 0, end: 5, text: "let" }], { label: "Rename to let" }),
+        );
+        store.changed(
+          MAIN,
+          await handle.edit([{ start: 0, end: 0, text: "// Greets a harbour.\n" }], {
+            label: "Add a comment",
+          }),
+        );
+      })();
+    });
+    return () => {
+      stop();
+    };
+  }, [store]);
+  return null;
+}
+
+/** A part in a panel, as it would sit in an application. */
+function Framed({ title, children }: { title?: string; children: ReactNode }) {
+  return (
+    <Panel className="h-full">
+      {title ? <PanelHeader title={title} level={3} /> : null}
+      <PanelBody className="min-h-0 flex-1 p-0!">{children}</PanelBody>
+    </Panel>
+  );
+}
+
+/** A side view at the width a drawer gives it. */
+function Drawer({ children }: { children: ReactNode }) {
+  return <div style={{ display: "grid", inlineSize: "18rem", blockSize: "100%" }}>{children}</div>;
+}
+
 /** Writes one line, so the panel beside it has something to show. */
 function Logged({ children }: { children: ReactNode }) {
   const { log } = useWorkbench();
   useEffect(() => log.write("Saved main.ts"), [log]);
+  return children;
+}
+
+/** The file tree, opening what is chosen in the editors beside it. */
+function OpenFromTree() {
+  const workbench = useWorkbench();
+  return (
+    <FileExplorer
+      providers={backend.files}
+      selected={workbench.activeUri}
+      onOpen={(uri, options) => void workbench.open(uri, options)}
+    />
+  );
+}
+
+/** Makes main.ts the active file, as opening it in a tab would. */
+function ActiveMain({ children }: { children: ReactNode }) {
+  const workbench = useWorkbench();
+  useEffect(() => {
+    void workbench.open(MAIN);
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- once, at the start
+  }, []);
   return children;
 }
 
@@ -78,16 +155,19 @@ export default function WorkbenchSection() {
         description="Holds the state and draws nothing, so the parts can go in a shell you already have."
         specimenKey="workbench:default:1"
       >
-        <Example label="Two parts of a host's layout" className="w-full">
-          <Parts height="24rem">
+        <Example label="A file tree and the editors, in a host's own layout" className="w-full">
+          <Parts height="26rem">
             <div
               style={{
                 display: "grid",
                 gridTemplateColumns: "15rem minmax(0, 1fr)",
+                gap: "var(--gap-panels)",
                 blockSize: "100%",
               }}
             >
-              <FileExplorer providers={backend.files} onOpen={() => undefined} />
+              <Framed title="Files">
+                <OpenFromTree />
+              </Framed>
               <EditorArea />
             </div>
           </Parts>
@@ -99,7 +179,7 @@ export default function WorkbenchSection() {
         specimenKey="workbench:default:2"
       >
         <Example label="One file" className="w-full">
-          <Parts height="22rem">
+          <Parts height="24rem">
             <EditorArea />
           </Parts>
         </Example>
@@ -112,9 +192,9 @@ export default function WorkbenchSection() {
       >
         <Example label="In a drawer" className="w-full">
           <Parts height="24rem">
-            <div style={{ display: "grid", inlineSize: "18rem", blockSize: "100%" }}>
+            <Drawer>
               <ExplorerView />
-            </div>
+            </Drawer>
           </Parts>
         </Example>
       </Specimen>
@@ -123,11 +203,11 @@ export default function WorkbenchSection() {
         description="Searches every file. It uses the application's search provider when there is one, otherwise it reads files in the page."
         specimenKey="workbench:default:5"
       >
-        <Example label="In a drawer" className="w-full">
-          <Parts height="20rem">
-            <div style={{ display: "grid", inlineSize: "18rem", blockSize: "100%" }}>
-              <SearchView />
-            </div>
+        <Example label="Searching for greet" className="w-full">
+          <Parts height="22rem">
+            <Drawer>
+              <SearchView defaultQuery="greet" />
+            </Drawer>
           </Parts>
         </Example>
       </Specimen>
@@ -136,11 +216,11 @@ export default function WorkbenchSection() {
         description="Files with unsaved edits. Choosing one compares it with what was saved."
         specimenKey="workbench:default:6"
       >
-        <Example label="Nothing changed yet" className="w-full">
-          <Parts height="14rem">
-            <div style={{ display: "grid", inlineSize: "18rem", blockSize: "100%" }}>
+        <Example label="One file edited" className="w-full">
+          <Parts height="16rem" edited>
+            <Drawer>
               <ChangesView />
-            </div>
+            </Drawer>
           </Parts>
         </Example>
       </Specimen>
@@ -149,11 +229,13 @@ export default function WorkbenchSection() {
         description="The active file's undo history, with its branches. Choosing a step goes back, or forward, to it."
         specimenKey="workbench:default:7"
       >
-        <Example label="A file just opened" className="w-full">
-          <Parts height="14rem">
-            <div style={{ display: "grid", inlineSize: "18rem", blockSize: "100%" }}>
-              <TimelineView />
-            </div>
+        <Example label="Two edits" className="w-full">
+          <Parts height="18rem" edited>
+            <Drawer>
+              <ActiveMain>
+                <TimelineView />
+              </ActiveMain>
+            </Drawer>
           </Parts>
         </Example>
       </Specimen>
@@ -163,8 +245,10 @@ export default function WorkbenchSection() {
         specimenKey="workbench:default:8"
       >
         <Example label="One warning" className="w-full">
-          <Parts height="10rem">
-            <ProblemsPanel />
+          <Parts height="11rem">
+            <Framed title="Problems">
+              <ProblemsPanel />
+            </Framed>
           </Parts>
         </Example>
       </Specimen>
@@ -174,9 +258,11 @@ export default function WorkbenchSection() {
         specimenKey="workbench:default:9"
       >
         <Example label="After a save" className="w-full">
-          <Parts height="6rem">
+          <Parts height="9rem">
             <Logged>
-              <OutputPanel />
+              <Framed title="Output">
+                <OutputPanel />
+              </Framed>
             </Logged>
           </Parts>
         </Example>
@@ -186,9 +272,11 @@ export default function WorkbenchSection() {
         description="A file against what was last saved, in a stack of its own. The panel's id names the file."
         specimenKey="workbench:default:10"
       >
-        <Example label="No edits yet" className="w-full">
-          <Parts height="8rem">
-            <ChangesPanel id={`diff:${MAIN}`} />
+        <Example label="Two edits" className="w-full">
+          <Parts height="13rem" edited>
+            <Framed title="main.ts (changes)">
+              <ChangesPanel id={`diff:${MAIN}`} />
+            </Framed>
           </Parts>
         </Example>
       </Specimen>
@@ -198,8 +286,10 @@ export default function WorkbenchSection() {
         specimenKey="workbench:default:11"
       >
         <Example label="Empty" className="w-full">
-          <Parts height="12rem">
-            <WelcomePanel />
+          <Parts height="14rem">
+            <Framed>
+              <WelcomePanel />
+            </Framed>
           </Parts>
         </Example>
       </Specimen>
@@ -208,9 +298,13 @@ export default function WorkbenchSection() {
         description="Built from the workbench's commands, so a menu row, a shortcut and the palette always agree."
         specimenKey="workbench:default:12"
       >
-        <Example label="Menus" className="w-full">
-          <Parts height="3rem">
-            <WorkbenchMenubar />
+        <Example label="In an application's top row" className="w-full">
+          <Parts height="3.5rem">
+            <Framed>
+              <div className="px-2 py-1">
+                <WorkbenchMenubar />
+              </div>
+            </Framed>
           </Parts>
         </Example>
       </Specimen>
@@ -221,7 +315,9 @@ export default function WorkbenchSection() {
       >
         <Example label="One file open" className="w-full">
           <Parts height="3rem">
-            <WorkbenchStatusBar />
+            <Framed>
+              <WorkbenchStatusBar className="px-3" />
+            </Framed>
           </Parts>
         </Example>
       </Specimen>

@@ -52,6 +52,7 @@ export default defineWorkbenchPack("ar", {
   explorer: "المستكشف",
   openEditors: "المحررات المفتوحة",
   search: "بحث",
+  searchHint: "اكتب للبحث في كل الملفات.",
   searchInFiles: "البحث في الملفات",
   changes: "التغييرات",
   noChanges: "لا توجد تغييرات غير محفوظة",

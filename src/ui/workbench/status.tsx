@@ -1,17 +1,16 @@
 import { useSyncExternalStore } from "react"
+import { formatBytes } from "glass-ux/byte-size-field"
 import { useMessages } from "glass-ux/i18n"
 import { ShortcutPending } from "glass-ux/keymap"
 import { useLocale } from "glass-ux/locale"
 import { StatusBar } from "glass-ux/status-bar"
 import { useWorkbench } from "./context.ts"
 import { workbenchMessages } from "./messages.ts"
+import "./workbench.css"
 
-const UNITS = ["byte", "kilobyte", "megabyte", "gigabyte", "terabyte"]
-
-/** A size in the reader's language, such as 100 GB. */
+/** A size in the reader's language, such as 100 GB, as glass-ux writes sizes everywhere. */
 export function formatSize(bytes: number, locale: string) {
-  const step = bytes > 0 ? Math.min(UNITS.length - 1, Math.floor(Math.log(bytes) / Math.log(1024))) : 0
-  return new Intl.NumberFormat(locale, { style: "unit", unit: UNITS[step]!, unitDisplay: "short", maximumFractionDigits: step > 1 ? 1 : 0 }).format(bytes / 1024 ** step)
+  return formatBytes(bytes, { locale })
 }
 
 /** The bar under a workbench: problems, the caret, the file's size and any shortcut in progress. */

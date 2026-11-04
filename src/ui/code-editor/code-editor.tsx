@@ -40,6 +40,8 @@ export interface CodeEditorProps {
   onStatus?: (status: EditorStatus) => void
   /** Mirror the current line into the input, for screen readers. */
   screenReader?: boolean
+  /** Draw the editor's own edge and corners, as a control has. Turn it off inside a panel or window body that already frames it. @defaultValue true */
+  framed?: boolean
   className?: string
   ref?: Ref<CodeEditorHandle>
 }
@@ -48,7 +50,7 @@ export interface CodeEditorProps {
  * Edits a document of any size in a bounded box. Give the parent a definite height (R7.3).
  * Use `document` for files, and `value` or `defaultValue` for short content.
  */
-export function CodeEditor({ "aria-label": label, document, value, defaultValue = "", onValueChange, lexer, readOnly, invalid, describedBy, onStatus, screenReader, className, ref }: CodeEditorProps) {
+export function CodeEditor({ "aria-label": label, document, value, defaultValue = "", onValueChange, lexer, readOnly, invalid, describedBy, onStatus, screenReader, framed = true, className, ref }: CodeEditorProps) {
   const mount = useRef<HTMLDivElement>(null)
   const [owned] = useState(() => (document ? null : createTextHandle(value ?? defaultValue)))
   const handle = document ?? owned
@@ -83,7 +85,7 @@ export function CodeEditor({ "aria-label": label, document, value, defaultValue 
 
   useImperativeHandle(ref, () => ({ view, focus: () => view?.focus() }), [view])
 
-  return <div ref={mount} className={["gux-code-editor", className].filter(Boolean).join(" ")} />
+  return <div ref={mount} className={["gux-code-editor", className].filter(Boolean).join(" ")} data-framed={framed ? "" : undefined} />
 }
 
 /** Props of {@link CodeViewer}. */
@@ -124,7 +126,7 @@ export function CodeField({ label, hint, error, warning, optional, required, asi
   return (
     <Field label={label} nativeLabel={false} hint={hint} error={error} warning={warning} optional={optional} required={required} aside={aside} message={message} className={className}>
       <div className="gux-code-field" style={box} data-invalid={error ? "" : undefined} onClick={() => editor.current?.focus()} onBlur={onBlur}>
-        <CodeEditor ref={editor} aria-label={toLabel(label)} value={value} defaultValue={defaultValue} onValueChange={onValueChange} lexer={lexer} readOnly={readOnly} invalid={Boolean(error)} />
+        <CodeEditor ref={editor} framed={false} aria-label={toLabel(label)} value={value} defaultValue={defaultValue} onValueChange={onValueChange} lexer={lexer} readOnly={readOnly} invalid={Boolean(error)} />
       </div>
     </Field>
   )

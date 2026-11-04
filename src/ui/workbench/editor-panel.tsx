@@ -14,6 +14,8 @@ import { useEditorView } from "../../react/use-editor-view.ts"
 import { workbenchMessages } from "./messages.ts"
 import { uriOfPanel, type OpenRecord } from "./store.ts"
 import { WorkbenchContext, type EditorRequest } from "./context.ts"
+import "../../view/editor.css"
+import "./workbench.css"
 
 const WORD_SCAN_BYTES = 1024 * 1024
 const MAX_SUGGESTIONS = 40
@@ -188,12 +190,7 @@ export function OpenEditor({ record, primary = true }: { record: OpenRecord; pri
     }
   }, [typeahead.textProps, view])
 
-  // Diagnostics.
-  const { diagnostics: source } = backend
-  useEffect(() => {
-    if (!source) return
-    return source.subscribe(uri, (diagnostics) => store.patch(uri, { diagnostics }))
-  }, [source, store, uri])
+  // Diagnostics arrive in the provider, for every open file; the editor draws them.
   useEffect(() => {
     if (!view) return
     let current = true

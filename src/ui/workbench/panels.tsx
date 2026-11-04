@@ -16,6 +16,7 @@ import { tierOf } from "../../core/tiers.ts"
 import { WorkbenchContext, useWorkbench } from "./context.ts"
 import { workbenchMessages } from "./messages.ts"
 import { isDirty, uriOfChanges } from "./store.ts"
+import "./workbench.css"
 
 /** What an editor stack shows when nothing is open. */
 export function WelcomePanel() {
