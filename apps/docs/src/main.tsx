@@ -1,0 +1,832 @@
+import { DocsDirection, LANGUAGES, restoreDocsLanguage, setDocsLanguage, useDocsLanguage, type DocsLanguage } from "./language.js";
+import { createRoot } from "react-dom/client";
+import {
+  createContext,
+  lazy,
+  Suspense,
+  use,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactElement,
+  type ReactNode,
+} from "react";
+import {
+  createRootRoute,
+  createRoute,
+  createRouter,
+  RouterProvider,
+  Link,
+  Outlet,
+  useRouterState,
+} from "@tanstack/react-router";
+import {
+  AppearanceProvider,
+  useAppearance,
+  PALETTES,
+  PALETTE_LABELS,
+  BACKGROUNDS,
+  BACKGROUND_LABELS,
+  appearanceConfig,
+  configureAppearance,
+  type Appearance,
+  type GlassRendering,
+  type VisualStyle,
+} from "glass-ux/appearance";
+import { ActionProvider } from "glass-ux/actions";
+import { PaletteProvider } from "glass-ux/command-palette";
+import { TooltipProvider } from "glass-ux/tooltip";
+import { Segmented } from "glass-ux/segmented";
+import { SwatchPicker } from "glass-ux/swatch-picker";
+import { Select } from "glass-ux/select";
+import { Button } from "glass-ux/button";
+import { ButtonLink } from "glass-ux/button-link";
+import { Dialog } from "glass-ux/dialog";
+import { Popover } from "glass-ux/popover";
+import { Sidebar, SidebarInset, SidebarProvider, SidebarTrigger, useSidebar } from "glass-ux/sidebar";
+import { BrandMark } from "glass-ux/brand";
+import {
+  IconSun,
+  IconMoon,
+  IconSystem,
+  IconSidebar,
+  IconSettings,
+  IconGithub,
+  IconCode,
+} from "glass-ux/icons";
+import { Skeleton } from "glass-ux/skeleton";
+import {
+  ComponentDocumentation,
+  DocsKitProvider,
+  FoundationDocumentation,
+  LibraryGuide,
+  siteRuntime,
+} from "glass-ux-docs-kit/react";
+import { site } from "../../../src/gallery/site.generated";
+import { configureDocsBrand } from "./brand";
+import "./styles.css";
+
+const Showcase = lazy(() => import("./showcase").then((module) => ({ default: module.Showcase })));
+const DemoApp = lazy(() => import("./demo/demo-app").then((module) => ({ default: module.DemoApp })));
+
+const runtime = siteRuntime(site);
+
+/**
+ * A route's placeholder while its code loads: the document column's heading and opening
+ * lines, in the place the page will occupy, so the shell and toolbar never move.
+ */
+function RouteLoading() {
+  return (
+    <div
+      className="docs-route-loading"
+      role="status"
+      aria-label="Loading the page"
+    >
+      <Skeleton.Text type="display" width="45%" />
+      <Skeleton.Text lines={3} />
+      <Skeleton.Block className="docs-route-loading-block" radius="surface" />
+    </div>
+  );
+}
+
+configureDocsBrand();
+// An application picks one glass rendering in configureAppearance. The documentation lets a
+// visitor try both, so it keeps their choice under its own key and configures again on change.
+const RENDERING_KEY = "glass-ux-ide-docs.glass-rendering";
+const storedRendering = (): GlassRendering => {
+  try {
+    return localStorage.getItem(RENDERING_KEY) === "baked" ? "baked" : "live";
+  } catch {
+    return "live";
+  }
+};
+configureAppearance({
+  defaults: { palette: "ocean", style: "glass" },
+  glassRendering: storedRendering(),
+});
+
+const renderingListeners = new Set<() => void>();
+function setGlassRendering(glassRendering: GlassRendering) {
+  try {
+    localStorage.setItem(RENDERING_KEY, glassRendering);
+  } catch {
+    // Private mode: the choice lasts for this page only.
+  }
+  configureAppearance({ ...appearanceConfig(), glassRendering });
+  // What applyAppearance and the boot script set from the configuration.
+  if (glassRendering === "baked") document.documentElement.dataset.glassRendering = "baked";
+  else delete document.documentElement.dataset.glassRendering;
+  for (const listener of renderingListeners) listener();
+}
+function useGlassRendering(): GlassRendering {
+  return useSyncExternalStore(
+    (listener) => {
+      renderingListeners.add(listener);
+      return () => renderingListeners.delete(listener);
+    },
+    () => appearanceConfig().glassRendering,
+    () => "live",
+  );
+}
+const RENDERING_OPTIONS: Array<{ value: GlassRendering; label: string }> = [
+  { value: "live", label: "Live" },
+  { value: "baked", label: "Baked" },
+];
+
+function RepositoryLink() {
+  if (!site.repositoryUrl) return null;
+  return (
+    <ButtonLink
+      href={site.repositoryUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      variant="ghost"
+      size="sm"
+      className="docs-repository-link"
+      icon={<IconGithub />}
+      aria-label={`${site.title} on GitHub`}
+      title="GitHub repository"
+    >
+      {null}
+    </ButtonLink>
+  );
+}
+
+const COMPONENT_GROUPS = ["Editors", "Workbench", "Parts"] as const;
+const EDITORS = new Set(["code-editor", "code-viewer", "code-field"]);
+const PARTS = new Set(["workbench", "workbench-provider"]);
+function componentGroup(id: string) {
+  return EDITORS.has(id) ? "Editors" : PARTS.has(id) ? "Workbench" : "Parts";
+}
+
+/**
+ * A directory group: a remembered disclosure, or while searching an open group of its matches
+ * (every match shows, whatever the group's remembered state).
+ */
+function DirectoryGroup({
+  id,
+  title,
+  count,
+  searching,
+  children,
+}: {
+  id: string;
+  title: string;
+  count: number;
+  searching: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <Sidebar.Group id={id} collapsible={!searching}>
+      <Sidebar.GroupLabel count={searching ? undefined : count}>
+        {title}
+      </Sidebar.GroupLabel>
+      <Sidebar.GroupContent>
+        <Sidebar.Menu>{children}</Sidebar.Menu>
+      </Sidebar.GroupContent>
+    </Sidebar.Group>
+  );
+}
+
+/** One destination: its label with the search's matches marked, and the route's link. */
+function DirectoryLink({
+  label,
+  query,
+  active = false,
+  icon,
+  link,
+  onClick,
+}: {
+  label: string;
+  query: string;
+  active?: boolean;
+  icon?: ReactNode;
+  link: ReactElement;
+  onClick: () => void;
+}) {
+  return (
+    <Sidebar.MenuItem>
+      <Sidebar.MenuButton icon={icon} active={active} render={link} onClick={onClick}>
+        <Sidebar.Match text={label} query={query} />
+      </Sidebar.MenuButton>
+    </Sidebar.MenuItem>
+  );
+}
+
+/** The expanded controls' size: md in the phone sheet, sm in the desktop popover. */
+const ChoiceSize = createContext<"sm" | "md">("md");
+
+function AppearanceChoices<V extends string>({
+  label,
+  value,
+  options,
+  onValueChange,
+  disabled = false,
+}: {
+  label: string;
+  value: V;
+  options: Array<{ value: V; label: string; icon?: ReactNode }>;
+  onValueChange: (value: V) => void;
+  disabled?: boolean;
+}) {
+  const size = use(ChoiceSize);
+  return (
+    <div className={disabled ? "docs-appearance-control docs-glass-only" : "docs-appearance-control"}>
+      <span className="type-label">{label}</span>
+      <div className="docs-appearance-options" role="group" aria-label={label}>
+        {options.map((option) => (
+          <Button
+            key={option.value}
+            variant={value === option.value ? "soft" : "secondary"}
+            size={size}
+            icon={option.icon}
+            aria-pressed={value === option.value}
+            disabled={disabled}
+            onClick={() => onValueChange(option.value)}
+          >
+            {option.label}
+          </Button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** The components' interface language in the appearance sheet: touch-sized choices like the rest. */
+function LanguageChoices() {
+  const { language } = useDocsLanguage();
+  return (
+    <AppearanceChoices<DocsLanguage>
+      label="Interface language"
+      value={language}
+      onValueChange={(next) => void setDocsLanguage(next)}
+      options={LANGUAGES.map((option) => ({ value: option.value, label: option.label }))}
+    />
+  );
+}
+
+/** The components' interface language; the docs' own prose stays English. */
+function LanguageSelect() {
+  const { language } = useDocsLanguage();
+  return (
+    <Select<DocsLanguage>
+      size="sm"
+      className="docs-language-select"
+      aria-label="Interface language"
+      value={language}
+      onValueChange={(next) => {
+        if (next) void setDocsLanguage(next);
+      }}
+      options={LANGUAGES.map((option) => ({ value: option.value, label: option.label }))}
+    />
+  );
+}
+
+function Toolbar({ expanded = false }: { expanded?: boolean }) {
+  const { appearance, update } = useAppearance();
+  const rendering = useGlassRendering();
+  const choiceSize = use(ChoiceSize);
+  const flat = appearance.style === "flat";
+  if (expanded)
+    return (
+      <div
+        className="docs-toolbar"
+        data-expanded=""
+        role="region"
+        aria-label="Appearance controls"
+      >
+        <AppearanceChoices<VisualStyle>
+          label="Visual style"
+          value={appearance.style ?? "glass"}
+          onValueChange={(style) => update({ style })}
+          options={[{ value: "flat", label: "Flat" }, { value: "glass", label: "Glass" }]}
+        />
+        <AppearanceChoices<Appearance["mode"]>
+          label="Mode"
+          value={appearance.mode}
+          onValueChange={(mode) => update({ mode })}
+          options={[
+            { value: "light", label: "Light", icon: <IconSun /> },
+            { value: "dark", label: "Dark", icon: <IconMoon /> },
+            { value: "system", label: "Match system", icon: <IconSystem /> },
+          ]}
+        />
+        <div className="docs-appearance-control">
+          <span className="type-label">Palette</span>
+          <SwatchPicker
+            aria-label="Palette"
+            size={choiceSize}
+            collapse="none"
+            value={appearance.palette}
+            onValueChange={(palette) => update({ palette, accentHue: null })}
+            options={PALETTES.map((palette) => ({
+              value: palette,
+              label: PALETTE_LABELS[palette] ?? palette,
+              palette,
+            }))}
+          />
+        </div>
+        <AppearanceChoices<Appearance["glass"]>
+          label="Material"
+          value={flat ? "solid" : appearance.glass}
+          disabled={flat}
+          onValueChange={(glass) => update({ glass })}
+          options={[
+            { value: "full", label: "Glass" },
+            { value: "reduced", label: "Frosted" },
+            { value: "solid", label: "Solid" },
+          ]}
+        />
+        <AppearanceChoices<GlassRendering>
+          label="Blur"
+          value={rendering}
+          disabled={flat}
+          onValueChange={setGlassRendering}
+          options={RENDERING_OPTIONS}
+        />
+        <AppearanceChoices<"full" | "reduced">
+          label="Animations"
+          value={flat || appearance.motion === "reduced" ? "reduced" : "full"}
+          disabled={flat}
+          onValueChange={(motion) => update({ motion })}
+          options={[
+            { value: "full", label: "Animated" },
+            { value: "reduced", label: "Still" },
+          ]}
+        />
+        <AppearanceChoices<Appearance["density"]>
+          label="Density"
+          value={appearance.density}
+          onValueChange={(density) => update({ density })}
+          options={[
+            { value: "comfortable", label: "Comfortable" },
+            { value: "compact", label: "Compact" },
+          ]}
+        />
+        <AppearanceChoices<NonNullable<Appearance["background"]>>
+          label="Background"
+          value={flat ? "plain" : appearance.background ?? "silk"}
+          disabled={flat}
+          onValueChange={(background) => update({ background })}
+          options={BACKGROUNDS.map((value) => ({
+            value,
+            label: BACKGROUND_LABELS[value] ?? value,
+          }))}
+        />
+        <LanguageChoices />
+      </div>
+    );
+  // One line that gives way in order (fa-fit-row): the palette folds to a menu first (its
+  // twelve swatches are the widest control), then blur, density, animations and material;
+  // the background select truncates last; the mode switch keeps its icons.
+  return (
+    <div
+      className="docs-toolbar fa-fit-row"
+      role="region"
+      aria-label="Appearance controls"
+    >
+      <Segmented
+        size="sm"
+        iconOnly
+        aria-label="Mode"
+        value={appearance.mode}
+        onValueChange={(mode) => update({ mode })}
+        options={[
+          { value: "light", label: "Light", icon: <IconSun /> },
+          { value: "dark", label: "Dark", icon: <IconMoon /> },
+          { value: "system", label: "Match system", icon: <IconSystem /> },
+        ]}
+      />
+      <SwatchPicker
+        size="sm"
+        className="fa-fit-0"
+        aria-label="Palette"
+        value={appearance.palette}
+        onValueChange={(palette) => update({ palette, accentHue: null })}
+        options={PALETTES.map((palette) => ({
+          value: palette,
+          label: PALETTE_LABELS[palette] ?? palette,
+          palette,
+        }))}
+      />
+      <Segmented
+        size="sm"
+        className="fa-fit-4 docs-glass-only"
+        aria-label="Material"
+        value={flat ? "solid" : appearance.glass}
+        disabled={flat}
+        onValueChange={(glass) => update({ glass })}
+        options={[
+          { value: "full", label: "Glass" },
+          { value: "reduced", label: "Frosted" },
+          { value: "solid", label: "Solid" },
+        ]}
+      />
+      <Segmented
+        size="sm"
+        className="fa-fit-1 docs-glass-only"
+        aria-label="Blur"
+        value={rendering}
+        disabled={flat}
+        onValueChange={setGlassRendering}
+        options={RENDERING_OPTIONS}
+      />
+      <Segmented
+        size="sm"
+        className="fa-fit-3 docs-glass-only"
+        aria-label="Animations"
+        value={flat || appearance.motion === "reduced" ? "reduced" : "full"}
+        disabled={flat}
+        onValueChange={(motion) => update({ motion })}
+        options={[
+          { value: "full", label: "Animated" },
+          { value: "reduced", label: "Still" },
+        ]}
+      />
+      <Segmented
+        size="sm"
+        className="fa-fit-2"
+        aria-label="Density"
+        value={appearance.density}
+        onValueChange={(density) => update({ density })}
+        options={[
+          { value: "comfortable", label: "Comfortable" },
+          { value: "compact", label: "Compact" },
+        ]}
+      />
+      <Select
+        size="sm"
+        className="docs-background-select fa-fit-5 docs-glass-only"
+        aria-label="Background"
+        value={flat ? "plain" : appearance.background ?? "silk"}
+        disabled={flat}
+        onValueChange={(background) => {
+          if (background) update({ background });
+        }}
+        options={BACKGROUNDS.map((value) => ({
+          value,
+          label: BACKGROUND_LABELS[value] ?? value,
+        }))}
+      />
+    </div>
+  );
+}
+/**
+ * The desktop header's appearance controls: the toolbar while its folded controls fit
+ * (a container query on this box), else one Appearance button whose popover holds them.
+ */
+function HeaderAppearance() {
+  return (
+    <div className="docs-header-appearance">
+      <Toolbar />
+      <Popover.Root>
+        <Popover.Trigger
+          render={
+            <Button
+              variant="ghost"
+              size="sm"
+              icon={<IconSettings />}
+              className="docs-appearance-button"
+            >
+              Appearance
+            </Button>
+          }
+        />
+        <Popover.Popup
+          align="end"
+          size="lg"
+          className="docs-appearance-popover"
+        >
+          <ChoiceSize value="sm">
+            <Toolbar expanded />
+          </ChoiceSize>
+        </Popover.Popup>
+      </Popover.Root>
+    </div>
+  );
+}
+
+function VisualStyleSwitch() {
+  const { appearance, update } = useAppearance();
+  return (
+    <Segmented<VisualStyle>
+      size="sm"
+      className="docs-style-switch"
+      aria-label="Visual style"
+      value={appearance.style ?? "glass"}
+      onValueChange={(style) => update({ style })}
+      options={[{ value: "flat", label: "Flat" }, { value: "glass", label: "Glass" }]}
+    />
+  );
+}
+
+function Layout() {
+  return (
+    <AppearanceProvider>
+      <TooltipProvider>
+        <ActionProvider>
+          <PaletteProvider>
+            <DocsKitProvider site={site}>
+              <Outlet />
+            </DocsKitProvider>
+          </PaletteProvider>
+        </ActionProvider>
+      </TooltipProvider>
+    </AppearanceProvider>
+  );
+}
+
+function DocsLayout() {
+  return (
+    <SidebarProvider
+      storageKey="glass-ux-ide-docs.sidebar"
+      className="gallery-shell docs-layout"
+    >
+      <DocsFrame />
+    </SidebarProvider>
+  );
+}
+
+/**
+ * The documentation's frame: the directory in a Sidebar (a sheet on phones, ⌘B / Ctrl B
+ * toggles it, the rail resizes it) beside the routed page.
+ */
+function DocsFrame() {
+  const [query, setQuery] = useState("");
+  const [appearanceOpen, setAppearanceOpen] = useState(false);
+  const appearanceButton = useRef<HTMLButtonElement>(null);
+  const { appearance } = useAppearance();
+  const { isMobile: phone, openMobile, setOpenMobile } = useSidebar();
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
+  const activePath = pathname.startsWith(import.meta.env.BASE_URL)
+    ? `/${pathname.slice(import.meta.env.BASE_URL.length)}`
+    : pathname;
+  const search = query.trim().toLowerCase();
+  const matches = (...text: string[]) =>
+    text.join(" ").toLowerCase().includes(search);
+  const items = runtime.families.all.filter((item) =>
+    item.components.some((component) =>
+      matches(component.name, component.description, component.id, componentGroup(item.id)),
+    ),
+  );
+  const guides = site.guides.filter((guide) => matches(guide.title, guide.id, "Guides"));
+  const showTypes = matches("Types and helpers", "TypeDoc", "API reference");
+  const showSource = matches("Source and releases", "GitHub");
+  const empty =
+    !items.length &&
+    !guides.length &&
+    !showTypes &&
+    !showSource;
+  const searching = Boolean(search);
+  const marked = query.trim();
+  // Choosing a destination clears the search; the phone sheet closes itself.
+  const activate = () => setQuery("");
+  return (
+    <>
+      {phone ? (
+        <header className="docs-mobile-header">
+          <Link to="/" className="gallery-brand" aria-label={site.title} onClick={activate}>
+            <BrandMark mark="product" tones="palette" className="gallery-brand-mark" />
+            <span className="gallery-brand-name">{site.title}</span>
+          </Link>
+          <div className="docs-mobile-actions">
+            <RepositoryLink />
+            <Button
+              variant="ghost"
+              icon={<IconSidebar />}
+              aria-label="Browse"
+              aria-expanded={openMobile}
+              aria-haspopup="dialog"
+              onClick={() => setOpenMobile(true)}
+            >
+              <span className="docs-mobile-action-label">Browse</span>
+            </Button>
+            <Button
+              ref={appearanceButton}
+              variant="ghost"
+              icon={<IconSettings />}
+              aria-label="Appearance"
+              aria-expanded={appearanceOpen}
+              aria-haspopup="dialog"
+              onClick={() => setAppearanceOpen(true)}
+            >
+              <span className="docs-mobile-action-label">Appearance</span>
+            </Button>
+          </div>
+        </header>
+      ) : null}
+      <Sidebar
+        className="docs-sidebar"
+        variant={appearance.style === "flat" ? "sidebar" : "floating"}
+        resizable
+        aria-label="Documentation navigation"
+      >
+        <Sidebar.Header
+          icon={<BrandMark mark="product" tones="palette" />}
+          title={
+            <Link to="/" onClick={activate}>
+              {site.title}
+            </Link>
+          }
+          subtitle={`v${site.version}`}
+          // The page header's trigger toggles the docked sidebar; the sheet keeps its close button.
+          toggle={phone}
+        />
+        <Sidebar.Search
+          aria-label="Search documentation"
+          placeholder="Search"
+          value={query}
+          onValueChange={setQuery}
+        />
+        <Sidebar.Content className="docs-directory">
+          {empty ? (
+            <p role="status" className="type-caption text-fg-muted docs-directory-empty">
+              No documentation matches “{marked}”.
+            </p>
+          ) : null}
+          {guides.length ? (
+            <DirectoryGroup id="guides" title="Guides" count={guides.length} searching={searching}>
+              {guides.map((guide) => (
+                <DirectoryLink
+                  key={guide.id}
+                  label={guide.title}
+                  query={marked}
+                  active={activePath === `/guides/${guide.id}`}
+                  onClick={activate}
+                  link={<Link to="/guides/$guide" params={{ guide: guide.id }} />}
+                />
+              ))}
+            </DirectoryGroup>
+          ) : null}
+          {COMPONENT_GROUPS.map((group) => {
+            const entries = items.filter((item) => componentGroup(item.id) === group);
+            return entries.length ? (
+              <DirectoryGroup
+                key={group}
+                id={group.toLowerCase()}
+                title={group}
+                count={entries.length}
+                searching={searching}
+              >
+                {entries.map((item) => (
+                  <DirectoryLink
+                    key={item.id}
+                    label={item.name}
+                    query={marked}
+                    active={item.components.some(
+                      (component) => activePath === `/components/${component.id}`,
+                    )}
+                    onClick={activate}
+                    link={
+                      <Link
+                        to="/components/$component"
+                        params={{ component: item.id }}
+                        hash={
+                          search && !matches(item.name, item.description, item.id)
+                            ? item.components.find((component) =>
+                                matches(component.name, component.description, component.id),
+                              )?.id
+                            : undefined
+                        }
+                      />
+                    }
+                  />
+                ))}
+              </DirectoryGroup>
+            ) : null;
+          })}
+        </Sidebar.Content>
+        <Sidebar.Footer>
+          {showTypes || showSource ? (
+            <Sidebar.Menu>
+              {showTypes ? (
+                <DirectoryLink
+                  icon={<IconCode />}
+                  label="API reference"
+                  query=""
+                  onClick={activate}
+                  link={<a href={`${import.meta.env.BASE_URL}api/`} />}
+                />
+              ) : null}
+              {showSource ? (
+                <DirectoryLink
+                  icon={<IconGithub />}
+                  label="Source and releases"
+                  query=""
+                  onClick={activate}
+                  link={<a href={site.repositoryUrl ?? "#"} />}
+                />
+              ) : null}
+            </Sidebar.Menu>
+          ) : null}
+          <div className="docs-language">
+            <LanguageSelect />
+          </div>
+        </Sidebar.Footer>
+        <Sidebar.Rail />
+      </Sidebar>
+      <SidebarInset className="gallery-main docs-main" tabIndex={0} aria-label="Documentation">
+        {!phone ? (
+          <header className="gallery-header docs-header">
+            <SidebarTrigger className="docs-sidebar-trigger" />
+            <VisualStyleSwitch />
+            <RepositoryLink />
+            <HeaderAppearance />
+          </header>
+        ) : null}
+        <div
+          className="gallery-content docs-content"
+          data-scroll-container
+          tabIndex={0}
+          role="region"
+          aria-label="Documentation content"
+        >
+          <Suspense fallback={<RouteLoading />}>
+            <Outlet />
+          </Suspense>
+        </div>
+      </SidebarInset>
+      {phone ? (
+        <Dialog.Root open={appearanceOpen} onOpenChange={setAppearanceOpen}>
+          <Dialog.Popup
+            className="docs-mobile-dialog docs-appearance-dialog"
+            finalFocus={appearanceButton}
+          >
+            <Dialog.Header role="presentation" title="Appearance" />
+            <Dialog.Body>
+              <Toolbar expanded />
+            </Dialog.Body>
+          </Dialog.Popup>
+        </Dialog.Root>
+      ) : null}
+    </>
+  );
+}
+const rootRoute = createRootRoute({ component: Layout });
+const docsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  id: "docs",
+  component: DocsLayout,
+});
+const indexRoute = createRoute({
+  getParentRoute: () => docsRoute,
+  path: "/",
+  component: Showcase,
+});
+const componentRoute = createRoute({
+  getParentRoute: () => docsRoute,
+  path: "/components/$component",
+  component: () => {
+    const { component } = componentRoute.useParams();
+    return <ComponentDocumentation key={component} id={component} />;
+  },
+});
+const guideRoute = createRoute({
+  getParentRoute: () => docsRoute,
+  path: "/guides/$guide",
+  component: () => {
+    const { guide } = guideRoute.useParams();
+    return <LibraryGuide key={guide} id={guide} />;
+  },
+});
+const foundationRoute = createRoute({
+  getParentRoute: () => docsRoute,
+  path: "/foundations/$section",
+  component: () => {
+    const { section } = foundationRoute.useParams();
+    return <FoundationDocumentation key={section} id={section} />;
+  },
+});
+// The demo on its own, a full application without the documentation around it.
+const demoRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/demo",
+  component: () => (
+    <Suspense fallback={<RouteLoading />}>
+      <div className="docs-demo-page">
+        <DemoApp />
+      </div>
+    </Suspense>
+  ),
+});
+const router = createRouter({
+  routeTree: rootRoute.addChildren([
+    docsRoute.addChildren([
+      indexRoute,
+      componentRoute,
+      guideRoute,
+      foundationRoute,
+    ]),
+    demoRoute,
+  ]),
+  basepath: import.meta.env.BASE_URL.replace(/\/$/, "") || "/",
+});
+// The interface language: remembered, or previewed with ?lang=ar&dir=rtl for one visit.
+restoreDocsLanguage();
+createRoot(document.getElementById("root")!).render(
+  <DocsDirection>
+    <RouterProvider router={router} />
+  </DocsDirection>,
+);

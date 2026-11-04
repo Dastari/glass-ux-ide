@@ -1,0 +1,5 @@
+# Glass UX IDE
+
+A code editor, reusable editing components and backend interfaces for glass-ux applications.
+
+- [Design](docs/DESIGN.md)

@@ -1,0 +1,137 @@
+@layer components {
+  .showcase {
+    --showcase-measure: 80rem;
+    width: 100%;
+    max-width: var(--showcase-measure);
+    margin-inline: auto;
+    padding: var(--space-6) var(--space-6) var(--space-12);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    container: showcase / inline-size;
+  }
+  .showcase-hero {
+    padding-block: var(--space-3) var(--space-3);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+  .showcase-hero h1 {
+    font-family: var(--font-display);
+    font-size: var(--type-display-size);
+    font-weight: 600;
+    letter-spacing: var(--type-display-tracking);
+    line-height: var(--type-display-line);
+  }
+  .showcase-hero > p {
+    font-size: var(--type-body-size);
+    line-height: 1.6;
+    color: var(--fg-muted);
+    max-width: 42rem;
+  }
+  .showcase-hero-actions {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .showcase-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    scroll-margin-block-start: var(--space-4);
+    min-width: 0;
+  }
+  .showcase-section-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--gap-panels);
+  }
+  .showcase-section-heading > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .showcase-section-heading h2 {
+    font-family: var(--font-display);
+    font-size: var(--type-title-size);
+    line-height: 1.2;
+    letter-spacing: var(--type-title-tracking);
+    font-weight: 600;
+  }
+  .showcase-section-heading p {
+    font-size: var(--type-body-size);
+    line-height: 1.6;
+    max-width: 44rem;
+  }
+  .showcase-component-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+  }
+  .showcase-component-links > a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--type-caption-size);
+    color: var(--fg-muted);
+    text-decoration: none;
+  }
+  .showcase-component-links > a:hover {
+    color: var(--accent-text);
+  }
+  .showcase-component-links .fa-icon {
+    width: var(--space-3);
+    height: var(--space-3);
+  }
+  .showcase-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-block-start: var(--space-5);
+    border-block-start: var(--border-width) solid var(--line);
+  }
+  .showcase-hero-actions {
+    display: flex;
+    align-items: center;
+  }
+  /* Tall enough for the editors, the panels and the shell's own top bar. */
+  .showcase-app,
+  .showcase-app-placeholder {
+    block-size: 46rem;
+  }
+  .showcase-app {
+    overflow: hidden;
+    border: var(--border-width) solid var(--line);
+    border-radius: var(--radius-surface);
+    background: var(--canvas);
+  }
+  .showcase-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: var(--gap-panels);
+  }
+  .showcase-editors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: var(--gap-panels);
+  }
+  .showcase-editor-body {
+    block-size: 13rem;
+    padding: 0;
+  }
+  .showcase-windows {
+    position: relative;
+    block-size: 30rem;
+    overflow: hidden;
+    border: var(--border-width) solid var(--line);
+    border-radius: var(--radius-surface);
+  }
+  .showcase-window-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-controls);
+    padding: var(--inset-panel);
+  }
+}

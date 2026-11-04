@@ -1,0 +1,125 @@
+{
+  "name": "glass-ux-ide",
+  "version": "0.1.0",
+  "description": "A code editor, reusable editing components and backend interfaces for Glass UX applications.",
+  "type": "module",
+  "license": "MIT",
+  "packageManager": "pnpm@11.21.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js"
+    },
+    "./backend": {
+      "types": "./dist/backend/index.d.ts",
+      "import": "./dist/backend/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js"
+    },
+    "./view": {
+      "types": "./dist/view/index.d.ts",
+      "import": "./dist/view/index.js"
+    },
+    "./editor": {
+      "types": "./dist/ui/code-editor/index.d.ts",
+      "import": "./dist/ui/code-editor/index.js"
+    },
+    "./workbench": {
+      "types": "./dist/ui/workbench/index.d.ts",
+      "import": "./dist/ui/workbench/index.js"
+    },
+    "./languages/typescript": {
+      "types": "./dist/languages/typescript/index.d.ts",
+      "import": "./dist/languages/typescript/index.js"
+    },
+    "./languages/json": {
+      "types": "./dist/languages/json/index.d.ts",
+      "import": "./dist/languages/json/index.js"
+    },
+    "./languages/css": {
+      "types": "./dist/languages/css/index.d.ts",
+      "import": "./dist/languages/css/index.js"
+    },
+    "./languages/markdown": {
+      "types": "./dist/languages/markdown/index.d.ts",
+      "import": "./dist/languages/markdown/index.js"
+    },
+    "./languages/html": {
+      "types": "./dist/languages/html/index.d.ts",
+      "import": "./dist/languages/html/index.js"
+    },
+    "./format": {
+      "types": "./dist/format/index.d.ts",
+      "import": "./dist/format/index.js"
+    },
+    "./i18n/*": {
+      "types": "./dist/i18n/*.d.ts",
+      "import": "./dist/i18n/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "docs:api": "glass-ux-docs api",
+    "docs:dev": "vite apps/docs",
+    "docs:build": "glass-ux-docs api && vite build apps/docs && glass-ux-docs site",
+    "docs:check": "glass-ux-docs check docs",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p apps/docs/tsconfig.json",
+    "test": "vitest run",
+    "lint": "oxlint --deny-warnings src scripts",
+    "boundaries:check": "node scripts/check-boundaries.mjs",
+    "perf:engine": "node --expose-gc scripts/perf-engine.ts",
+    "check": "pnpm run boundaries:check && pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run docs:check",
+    "test:e2e": "playwright test --project=chromium",
+    "lab": "vite --config apps/lab/vite.config.ts",
+    "build": "node scripts/build.mjs",
+    "test:browsers": "playwright test --project=chromium --project=firefox --project=webkit"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "1.64.0",
+    "@types/node": "^26.6.5",
+    "oxlint": "^1.87.0",
+    "typescript": "~6.0.3",
+    "vite": "8.3.4",
+    "vitest": "^5.0.3",
+    "glass-ux": "file:vendor/glass-ux-0.15.0.tgz",
+    "glass-ux-docs-kit": "file:vendor/glass-ux-docs-kit-0.15.0.tgz",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@testing-library/react": "^16.3.3",
+    "jsdom": "^30.1.2",
+    "@tailwindcss/vite": "4.3.3",
+    "@tanstack/react-router": "1.170.43",
+    "@vitejs/plugin-react": "6.1.2",
+    "prettier": "^3.9.10",
+    "tailwindcss": "4.3.3",
+    "typedoc": "0.28.20"
+  },
+  "peerDependencies": {
+    "glass-ux": ">=0.15 <0.16",
+    "react": ">=19 <20",
+    "react-dom": ">=19 <20"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dastari/glass-ux-ide.git"
+  },
+  "homepage": "https://dastari.github.io/glass-ux-ide/"
+}

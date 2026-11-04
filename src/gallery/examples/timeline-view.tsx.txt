@@ -1,0 +1,66 @@
+// tokens:allow-file boxes that give a demo the definite height its component needs
+import { type ReactNode } from "react";
+import { memoryFiles } from "glass-ux/file-provider/memory";
+import { Example, SectionPage, Specimen } from "glass-ux-docs-kit/react";
+import { typescriptLexer } from "glass-ux-ide/languages/typescript";
+import { TimelineView, WorkbenchProvider } from "glass-ux-ide/workbench";
+
+const MAIN = "example:///src/main.ts";
+const project = memoryFiles(
+  {
+    "src/main.ts": 'const unused = 1\n\nconsole.log(greet("harbour"))\n',
+    "src/greet.ts": "export const greet = (name: string) => `Hello, ${name}`\n",
+    "README.md": "# Example\n",
+  },
+  { scheme: "example", label: "Example" },
+);
+const backend = {
+  files: [project],
+  diagnostics: {
+    subscribe(uri: string, report: (found: []) => void) {
+      if (uri !== MAIN) report([]);
+      else
+        report([
+          {
+            severity: "warning",
+            message: "unused is never read.",
+            source: "demo",
+            range: { start: { line: 0, column: 6 }, end: { line: 0, column: 12 } },
+          },
+        ] as never);
+      return () => undefined;
+    },
+  },
+};
+const lexers = { ts: typescriptLexer };
+const opening = [MAIN];
+
+/** A workbench's state with no frame, so one part can show by itself. */
+function Parts({ children, height = "16rem" }: { children: ReactNode; height?: string }) {
+  return (
+    <div className="w-full" style={{ blockSize: height }}>
+      <WorkbenchProvider backend={backend} lexers={lexers} initialFiles={opening}>
+        {children}
+      </WorkbenchProvider>
+    </div>
+  );
+}
+
+export default function WorkbenchSection() {
+  return (
+    <SectionPage>
+      <Specimen
+        title="TimelineView"
+        description="The active file's undo history, with its branches. Choosing a step goes back, or forward, to it."
+      >
+        <Example label="A file just opened" className="w-full">
+          <Parts height="14rem">
+            <div style={{ display: "grid", inlineSize: "18rem", blockSize: "100%" }}>
+              <TimelineView />
+            </div>
+          </Parts>
+        </Example>
+      </Specimen>
+    </SectionPage>
+  );
+}

@@ -1,0 +1,1 @@
+{"id":"search-view","name":"SearchView","entry":"glass-ux-ide/workbench","family":"workbench","description":"Search across files: `backend.search` when the application has one, otherwise in the page.","source":"src/ui/workbench/views.tsx","signature":"(): import(\"react\").JSX.Element","props":[],"htmlAttributes":false,"slots":[],"section":"workbench"}

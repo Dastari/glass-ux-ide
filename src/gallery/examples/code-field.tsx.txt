@@ -1,0 +1,22 @@
+// tokens:allow-file boxes that give a demo the definite height its component needs
+import { Example, SectionPage, Specimen } from "glass-ux-docs-kit/react";
+import { CodeField } from "glass-ux-ide/editor";
+
+export default function EditorSection() {
+  return (
+    <SectionPage>
+      <Specimen title="CodeField" description="Takes part in a form like any other control.">
+        <Example label="With an error" className="w-full">
+          <div className="w-full">
+            <CodeField
+              label="Policy"
+              defaultValue={'{ "attempts": 5 }'}
+              error="Expected a base delay."
+              height="6rem"
+            />
+          </div>
+        </Example>
+      </Specimen>
+    </SectionPage>
+  );
+}

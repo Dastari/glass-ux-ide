@@ -1,0 +1,10 @@
+node_modules
+dist
+test-results
+mockups/shots/
+*.tsbuildinfo
+.docs-kit/
+apps/docs/dist/
+.release/
+mockups/node_modules
+.handoff/

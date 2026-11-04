@@ -1,0 +1,215 @@
+/*
+ * The editor surface. Colours and fonts read Glass UX roles, with fallbacks so the view also
+ * works without it. The surface is opaque, so nothing behind scrolling text ever re-blurs, and
+ * code stays left to right in a right-to-left page.
+ */
+.gux-editor {
+  --gux-line: 1.375rem;
+  --gux-size: 0.8125rem;
+  --gux-fg: var(--fg, #e6e8eb);
+  --gux-muted: var(--fg-muted, #9aa3ad);
+  --gux-subtle: var(--fg-subtle, #8d96a1);
+  --gux-bg: var(--canvas-solid, #14181d);
+  --gux-current: var(--fill-muted, rgb(255 255 255 / 5%));
+  --gux-selection: var(--accent-soft, rgb(70 130 220 / 35%));
+  --gux-caret: var(--accent-text, #7cb3ff);
+  --gux-keyword: var(--code-keyword, var(--accent-text, #7cb3ff));
+  --gux-string: var(--code-string, #e5a06f);
+  --gux-constant: var(--code-constant, #b7a2f2);
+  --gux-function: var(--code-function, #d9c36a);
+  --gux-type: var(--code-type, #6fd0c0);
+  --gux-property: var(--code-parameter, var(--gux-fg));
+  --gux-comment: var(--code-comment, var(--gux-subtle));
+  --gux-punctuation: var(--code-punctuation, var(--gux-muted));
+  --gux-match: var(--warning-soft, rgb(230 170 60 / 30%));
+  --gux-match-line: var(--warning-line, rgb(230 170 60 / 60%));
+  --gux-error: var(--danger, #e5484d);
+  --gux-warning: var(--warning, #e5a13c);
+  --gux-info: var(--info, #5aa2e8);
+
+  position: relative;
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+  background: var(--gux-bg);
+  color: var(--gux-fg);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--gux-size);
+  line-height: var(--gux-line);
+  font-variant-ligatures: none;
+  tab-size: 2;
+  contain: strict;
+}
+.gux-editor:focus-within {
+  outline: 2px solid var(--accent-ring, var(--gux-caret));
+  outline-offset: -2px;
+}
+.gux-scroller {
+  position: absolute;
+  inset: 0;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+.gux-spacer {
+  position: relative;
+}
+.gux-viewport {
+  position: sticky;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  overflow: hidden;
+  contain: strict;
+}
+.gux-layer {
+  position: absolute;
+  inset-block-start: 0;
+  will-change: transform;
+}
+.gux-gutter {
+  z-index: 2;
+  inset-inline-start: 0;
+  background: var(--gux-bg);
+  color: var(--gux-subtle);
+  text-align: end;
+  user-select: none;
+}
+.gux-gutter > div {
+  block-size: var(--gux-line);
+  padding-inline: 1ch 1.5ch;
+  white-space: nowrap;
+}
+.gux-gutter > [data-current] {
+  color: var(--gux-fg);
+}
+.gux-content {
+  cursor: text;
+}
+.gux-row {
+  block-size: var(--gux-line);
+  white-space: pre;
+  contain: layout style;
+}
+.gux-row[data-current] {
+  background: var(--gux-current);
+}
+.gux-row[data-tok-free] {
+  color: var(--gux-fg);
+}
+.gux-selection-layer,
+.gux-caret-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.gux-selection-rect {
+  position: absolute;
+  block-size: var(--gux-line);
+  background: var(--gux-selection);
+}
+.gux-match {
+  position: absolute;
+  block-size: var(--gux-line);
+  background: var(--gux-match);
+  box-shadow: inset 0 0 0 1px var(--gux-match-line);
+}
+.gux-mark {
+  position: absolute;
+  block-size: 3px;
+  --_tone: var(--gux-warning);
+  background:
+    linear-gradient(45deg, transparent 45%, var(--_tone) 45%, var(--_tone) 65%, transparent 65%) 0 0 / 6px 100%,
+    linear-gradient(-45deg, transparent 45%, var(--_tone) 45%, var(--_tone) 65%, transparent 65%) 3px 0 / 6px 100%;
+}
+.gux-mark[data-severity="error"] {
+  --_tone: var(--gux-error);
+}
+.gux-mark[data-severity="info"] {
+  --_tone: var(--gux-info);
+}
+.gux-caret {
+  position: absolute;
+  inline-size: 2px;
+  block-size: var(--gux-line);
+  background: var(--gux-caret);
+  /* perf:infinite only while this editor has focus; the surface is opaque, so nothing re-blurs. */
+  animation: gux-blink 1.06s steps(1) infinite;
+}
+.gux-editor:not(:focus-within) .gux-caret {
+  opacity: 0.4;
+  animation: none;
+}
+@keyframes gux-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gux-caret {
+    animation: none;
+  }
+}
+.gux-input {
+  position: absolute;
+  z-index: 3;
+  inline-size: 1px;
+  block-size: var(--gux-line);
+  padding: 0;
+  border: 0;
+  outline: 0;
+  resize: none;
+  overflow: hidden;
+  opacity: 0;
+  background: transparent;
+  color: transparent;
+  font: inherit;
+  line-height: inherit;
+  white-space: pre;
+}
+/* During composition the input shows what is being composed, where it will land. */
+.gux-input[data-composing] {
+  inline-size: auto;
+  min-inline-size: 8ch;
+  opacity: 1;
+  background: var(--gux-bg);
+  color: var(--gux-fg);
+  text-decoration: underline;
+}
+.gux-row [data-tok="keyword"] { color: var(--gux-keyword); }
+.gux-row [data-tok="string"] { color: var(--gux-string); }
+.gux-row [data-tok="constant"] { color: var(--gux-constant); }
+.gux-row [data-tok="function"] { color: var(--gux-function); }
+.gux-row [data-tok="type"] { color: var(--gux-type); }
+.gux-row [data-tok="comment"] { color: var(--gux-comment); font-style: italic; }
+.gux-row [data-tok="punctuation"] { color: var(--gux-punctuation); }
+/* Markup and style sheets: a tag reads as a keyword, a property or attribute as a parameter. */
+.gux-row [data-tok="tag"] { color: var(--gux-keyword); }
+.gux-row [data-tok="property"] { color: var(--gux-property); }
+.gux-row [data-tok="variable"] { color: var(--gux-type); }
+
+@media (forced-colors: active) {
+  .gux-editor {
+    forced-color-adjust: auto;
+  }
+  .gux-selection-rect {
+    background: Highlight;
+    forced-color-adjust: none;
+  }
+  .gux-caret {
+    background: CanvasText;
+    forced-color-adjust: none;
+  }
+  .gux-row[data-current] {
+    outline: 1px solid CanvasText;
+  }
+  .gux-match {
+    outline: 1px solid Highlight;
+    background: none;
+  }
+  .gux-mark {
+    background: none;
+    border-block-end: 2px dashed CanvasText;
+  }
+  .gux-mark[data-severity="error"] {
+    border-block-end-style: solid;
+  }
+}

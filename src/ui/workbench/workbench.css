@@ -1,0 +1,152 @@
+.gux-workbench {
+  --gap-panels: var(--space-2);
+  container: gux-workbench / inline-size;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-inline-size: 0;
+  block-size: 100%;
+}
+.gux-workbench .gux-workbench-shell {
+  block-size: auto;
+  min-block-size: 0;
+}
+.gux-workbench-stage {
+  flex: 1 1 0;
+  min-block-size: 0;
+}
+.gux-workbench-status {
+  flex: none;
+  padding-inline: var(--space-3);
+}
+.gux-editor-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+}
+.gux-editor-path {
+  flex: none;
+  padding-inline: var(--space-2);
+}
+.gux-editor-mount {
+  flex: 1;
+  min-block-size: 0;
+}
+.gux-editor-mount .gux-editor {
+  --gux-bg: var(--glass-fill-code, var(--canvas-solid));
+}
+.gux-editor-mount .gux-editor:focus-within {
+  outline: none;
+}
+/* A notice about the file sits above its text, never over it. */
+.gux-editor-notice {
+  flex: none;
+  padding: var(--space-1) var(--space-2);
+}
+.gux-editor-notice-actions {
+  display: flex;
+  gap: var(--space-1);
+}
+.gux-panel-empty,
+.gux-panel-fill {
+  block-size: 100%;
+  min-block-size: 0;
+}
+.gux-panel-empty {
+  display: grid;
+  place-items: center;
+}
+.gux-panel-loading {
+  padding: var(--inset-panel);
+}
+.gux-welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-controls);
+}
+.gux-welcome-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--fg-muted);
+  font-size: var(--type-caption-size);
+}
+.gux-problem-where {
+  color: var(--fg-muted);
+  font-size: var(--type-caption-size);
+  white-space: nowrap;
+}
+.gux-output {
+  block-size: 100%;
+  min-block-size: 0;
+  padding-block: var(--space-1);
+  direction: ltr;
+  text-align: left; /* logical:allow program output is not reading-order layout */
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  color: var(--fg-muted);
+}
+.gux-output-line {
+  padding-inline: var(--space-3);
+  white-space: pre;
+}
+.gux-changes {
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: auto;
+  padding: var(--space-2);
+}
+.gux-search-summary {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-block-size: var(--control-h-xs);
+  margin: 0;
+  padding-inline: var(--space-3);
+  color: var(--fg-muted);
+  font-size: var(--type-caption-size);
+}
+.gux-search-line {
+  display: block;
+  text-align: start;
+  min-inline-size: 0;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.gux-search-line > * {
+  display: inline;
+}
+.gux-file-explorer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-block-size: 0;
+  block-size: 100%;
+}
+/* Where a hover's card points: the text it describes, drawn by the editor beneath. */
+.gux-hover-anchor {
+  position: absolute;
+  pointer-events: none;
+}
+.gux-hover-text {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+  white-space: pre-wrap;
+}
+.gux-timeline {
+  padding-inline: var(--space-2);
+}
+.gux-problem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-inline-size: 0;
+}

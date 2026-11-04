@@ -1,0 +1,1 @@
+{"id":"problems-panel","name":"ProblemsPanel","entry":"glass-ux-ide/workbench","family":"workbench","description":"Every open file's diagnostics, grouped by file, from whichever provider the application connected.","source":"src/ui/workbench/panels.tsx","signature":"(): import(\"react\").JSX.Element","props":[],"htmlAttributes":false,"slots":[],"section":"workbench"}

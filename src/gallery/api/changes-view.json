@@ -1,0 +1,1 @@
+{"id":"changes-view","name":"ChangesView","entry":"glass-ux-ide/workbench","family":"workbench","description":"Files with unsaved edits, each opening its comparison with what was saved.","source":"src/ui/workbench/views.tsx","signature":"(): import(\"react\").JSX.Element","props":[],"htmlAttributes":false,"slots":[],"section":"workbench"}

@@ -1,0 +1,1 @@
+{"id":"timeline-view","name":"TimelineView","entry":"glass-ux-ide/workbench","family":"workbench","description":"The active file's undo history as a timeline, with its branches. Choosing a step goes back, or forward, to it.","source":"src/ui/workbench/views.tsx","signature":"(): import(\"react\").JSX.Element","props":[],"htmlAttributes":false,"slots":[],"section":"workbench"}

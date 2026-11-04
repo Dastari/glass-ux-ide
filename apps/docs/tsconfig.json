@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "glass-ux-ide/backend": ["./../../src/backend/index.ts"],
+      "glass-ux-ide/core": ["./../../src/core/index.ts"],
+      "glass-ux-ide/editor": ["./../../src/ui/code-editor/index.ts"],
+      "glass-ux-ide/format": ["./../../src/format/index.ts"],
+      "glass-ux-ide/languages/typescript": ["./../../src/languages/typescript/index.ts"],
+      "glass-ux-ide/languages/json": ["./../../src/languages/json/index.ts"],
+      "glass-ux-ide/languages/css": ["./../../src/languages/css/index.ts"],
+      "glass-ux-ide/languages/markdown": ["./../../src/languages/markdown/index.ts"],
+      "glass-ux-ide/languages/html": ["./../../src/languages/html/index.ts"],
+      "glass-ux-ide/workbench": ["./../../src/ui/workbench/index.ts"]
+    }
+  },
+  "include": ["src", "./../../src/**/*.d.ts"],
+  "exclude": []
+}

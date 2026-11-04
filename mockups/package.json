@@ -1,0 +1,26 @@
+{
+  "name": "glass-ux-ide-mockups",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 4310",
+    "build": "tsc --noEmit && vite build && node scripts/single-file.mjs",
+    "preview": "vite preview --host 0.0.0.0 --port 4311",
+    "shots": "node scripts/screenshots.mjs"
+  },
+  "dependencies": {
+    "glass-ux": "file:../vendor/glass-ux-0.15.0.tgz",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "vite": "8.3.4",
+    "@vitejs/plugin-react": "6.1.2",
+    "tailwindcss": "4.3.3",
+    "@tailwindcss/vite": "4.3.3",
+    "typescript": "~6.0.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@playwright/test": "1.64.0"
+  }
+}

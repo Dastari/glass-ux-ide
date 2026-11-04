@@ -1,0 +1,1 @@
+{"id":"welcome-panel","name":"WelcomePanel","entry":"glass-ux-ide/workbench","family":"workbench","description":"What an editor stack shows when nothing is open.","source":"src/ui/workbench/panels.tsx","signature":"(): import(\"react\").JSX.Element","props":[],"htmlAttributes":false,"slots":[],"section":"workbench"}

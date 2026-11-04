@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Editor lab</title>
+    <style>
+      html, body { height: 100%; margin: 0; background: #0c0f13; color: #e6e8eb; }
+      body { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; font: 13px system-ui, sans-serif; }
+      header, footer { display: flex; gap: 12px; align-items: center; padding: 6px 10px; }
+      #editor { min-height: 0; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="?doc=sample">Sample</a>
+      <a href="?doc=huge">100 GB synthetic</a>
+      <a href="?doc=hostile">One huge line</a>
+      <label>Open a file <input id="file" type="file" /></label>
+    </header>
+    <main id="editor"></main>
+    <footer id="status" aria-live="off"></footer>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

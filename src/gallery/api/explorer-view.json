@@ -1,0 +1,1 @@
+{"id":"explorer-view","name":"ExplorerView","entry":"glass-ux-ide/workbench","family":"workbench","description":"The Explorer: open files, then the project's folders, with a filter that stays put.","source":"src/ui/workbench/views.tsx","signature":"(): import(\"react\").JSX.Element","props":[],"htmlAttributes":false,"slots":[],"section":"workbench"}

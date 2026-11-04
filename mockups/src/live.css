@@ -1,0 +1,12 @@
+/* The stage for the real Workbench. */
+.ide-app-live {
+  position: absolute;
+  inset: 0;
+}
+.ide-live-brand {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 2rem;
+  color: var(--accent-text);
+}

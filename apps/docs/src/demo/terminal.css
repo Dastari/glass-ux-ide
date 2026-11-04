@@ -1,0 +1,31 @@
+.demo-terminal {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+  padding: var(--space-2) var(--space-3);
+  direction: ltr;
+  font-family: var(--font-mono);
+  font-size: var(--type-caption-size);
+}
+.demo-terminal-log {
+  flex: 1;
+  min-block-size: 0;
+  overflow: auto;
+  color: var(--fg-muted);
+  white-space: pre;
+}
+.demo-terminal-prompt {
+  display: flex;
+  gap: var(--space-2);
+  color: var(--accent-text);
+}
+.demo-terminal-prompt input {
+  flex: 1;
+  min-inline-size: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: var(--fg);
+  font: inherit;
+}

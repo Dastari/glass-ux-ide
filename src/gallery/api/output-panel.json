@@ -1,0 +1,1 @@
+{"id":"output-panel","name":"OutputPanel","entry":"glass-ux-ide/workbench","family":"workbench","description":"A running record of what the workbench did.","source":"src/ui/workbench/panels.tsx","signature":"(): import(\"react\").JSX.Element","props":[],"htmlAttributes":false,"slots":[],"section":"workbench"}
