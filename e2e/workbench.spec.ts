@@ -237,7 +237,8 @@ test.describe("commands", () => {
     await page.keyboard.press("Control+p")
     await page.keyboard.type("appearance")
     await page.keyboard.press("Enter")
-    await expect(page.getByRole("dialog")).toContainText("Palette")
+    // The palette may still be closing as the next dialog opens.
+    await expect(page.getByRole("dialog", { name: "Appearance" })).toContainText("Palette")
   })
 })
 
