@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.1 (4 November 2026)
+
+### Fixes
+- Each part loads its own styles. Using `EditorArea`, a view or a panel without `Workbench` lost the
+  editor's and workbench's stylesheets in a production build, leaving the editor unstyled.
+- Diagnostics arrive for every open file, not only a file an editor shows, so the Problems panel and
+  the status bar count background tabs and windows.
+- Sizes in the status bar use glass-ux's `formatBytes` ("48 B", "107.4 GB").
+
+### Changes
+- `CodeEditor` draws its own edge and corners. `framed={false}` turns them off inside a panel or a
+  window body.
+- `EditorArea` shows one panel at a time only below 28rem, a phone, and takes `collapseBelow`.
+- `SearchView` takes `defaultQuery`.
+
+### Documentation
+- Every example shows its part in a panel and in use, and the code windows demo fills its box.
+
 ## 0.1.0 (4 November 2026)
 
 The first release. Built on glass-ux 0.15.0 and React 19.

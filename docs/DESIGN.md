@@ -1,6 +1,6 @@
 # Glass UX IDE: design
 
-Status: 4 November 2026, version 0.1.0, on glass-ux 0.15.0. Built: the text engine, undo across
+Status: 4 November 2026, version 0.1.1, on glass-ux 0.15.0. Built: the text engine, undo across
 saves, crash recovery, `EditorView`, `CodeEditor`, `CodeViewer`, `CodeField`, the `Workbench` and
 each of its parts, code windows, project search, comparing with saved, hover, go to definition,
 rename, document sync, a built-in formatter, five languages, browser file providers, 11 language
@@ -653,7 +653,7 @@ glass-ux-ide/
 | **5 Workbench** | The mock-ups, running for real on the demo site | **Done** on `AppShell`: search across files, comparing with saved, code windows and split editors on one document. |
 | **6 Formatter and extras** | Formatter corpus at target | **A first formatter**: it re-indents and tidies whitespace for TypeScript, JavaScript, JSX, JSON, CSS and Markdown, and changes 0.3% of this project's own lines. It does not reflow lines as Prettier does. |
 
-### Known limits in 0.1.0
+### Known limits
 
 - Crash recovery stops journaling a file when an undo or a timeline jump goes back past its last
   save, until the next save, because the steps before it are not in the journal.

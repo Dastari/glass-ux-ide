@@ -217,3 +217,11 @@ Found while building glass-ux-image's tools and ImageEditor on 0.14.0. Each is g
    with PaneLayout's Maximise, Move to and Close, which have none, so labels start at two different edges.
    Expected: a menu with any icon reserves the icon column for every row, or PaneLayout's rows take icons.
 
+
+### glass-ux-image 0.1.0 follow-up (2026-11-04)
+
+1. **`Histogram` series.** glass-ux-image shows red, green and blue channels together, as camera and editor
+   histograms do. `Histogram` takes one series, so `src/panels/histogram.tsx` overlays three single-channel
+   Histograms in one well and blends them with CSS so overlaps read yellow, cyan and white. A `series` prop
+   (several bin sets, each with its own colour and accessible name, drawn in one plot with one axis) would
+   replace that, and serves any app comparing distributions.
