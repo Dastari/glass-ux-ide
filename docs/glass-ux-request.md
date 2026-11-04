@@ -225,3 +225,7 @@ Found while building glass-ux-image's tools and ImageEditor on 0.14.0. Each is g
    Histograms in one well and blends them with CSS so overlaps read yellow, cyan and white. A `series` prop
    (several bin sets, each with its own colour and accessible name, drawn in one plot with one axis) would
    replace that, and serves any app comparing distributions.
+
+2. **Language pack consistency.** A translation review of glass-ux-image against Glass UX 0.15's packs found
+   inconsistencies in Glass UX's own: es mixes *tú* and *usted*, zh-Hans mixes *撤消* and *撤销* for Undo, and nl
+   mixes *Annuleer* and *Annuleren* for Cancel. glass-ux-image follows the majority form in each.

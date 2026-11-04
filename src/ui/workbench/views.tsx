@@ -294,6 +294,9 @@ export function TimelineView() {
       <SectionDrawer.Body fill={!record}>
         {record ? (
           <ActivityFeed
+            variant="timeline"
+            // A side drawer is narrow: the time follows the text instead of taking a column.
+            timePlacement="inline"
             className="gux-timeline"
             aria-label={messages.timeline}
             items={items}

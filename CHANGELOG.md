@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Needs glass-ux 0.16. `TimelineView` uses ActivityFeed's timeline variant: the steps are joined by a
+  rail, and each time follows its step's text so labels fit a side drawer.
+
 ## 0.1.1 (4 November 2026)
 
 ### Fixes
