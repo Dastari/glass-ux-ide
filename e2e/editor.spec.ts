@@ -302,7 +302,10 @@ test.describe("huge documents", () => {
 })
 
 test.describe("files through a provider", () => {
-  test("the browser file provider passes the glass-ux conformance suite", async ({ page }) => {
+  test("the browser file provider passes the glass-ux conformance suite", async ({ page, browserName }) => {
+    // Playwright's WebKit refuses every write to the private file system with "an unknown transient
+    // reason". Safari itself has not been tried.
+    test.fixme(browserName === "webkit", "WebKit under Playwright cannot write to the origin private file system")
     await open(page)
     const failed = await page.evaluate(async () => {
       const { lab } = globalThis as never as { lab: Lab }
@@ -358,7 +361,7 @@ test.describe("accessibility", () => {
     await open(page, "sample", "")
     await page.keyboard.press("Control+m")
     await page.keyboard.press("Tab")
-    await expect(page.locator(".gux-input")).not.toBeFocused()
+    await expect(page.locator("#after")).toBeFocused()
     await settled(page, "")
   })
 

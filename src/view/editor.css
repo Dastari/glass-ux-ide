@@ -148,9 +148,11 @@
     animation: none;
   }
 }
+/* Focus and keys go to the input; the pointer goes to the text beneath it, in every browser. */
 .gux-input {
   position: absolute;
   z-index: 3;
+  pointer-events: none;
   inline-size: 1px;
   block-size: var(--gux-line);
   padding: 0;

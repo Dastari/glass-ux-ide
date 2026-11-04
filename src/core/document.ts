@@ -317,7 +317,7 @@ export class TextDocument {
    * is that text, not the file's size. When the write finishes, every step's pieces are moved
    * onto the new file. If the write fails, the copy is simply unused and nothing else has changed.
    */
-  async save(target: SaveTarget, { maxHistoryBytes = 256 * 1024 * 1024, dropHistory = false }: SaveOptions = {}): Promise<void> {
+  async save(target: SaveTarget, { maxHistoryBytes = 256 * 1024 * 1024, dropHistory = false }: SaveOptions = {}): Promise<number> {
     const { saved, survivors, orphans, content } = await this.enqueue(async () => {
       const entry = this.head
       const pieces = toPieces(entry.root)
@@ -356,6 +356,8 @@ export class TextDocument {
       }
       this.adopt(source)
     })
+    // The step that was written, which edits made during the write have moved on from.
+    return saved.id
   }
 
   /** Stops background work. Reads already made keep working. */

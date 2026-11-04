@@ -236,8 +236,10 @@ export class WorkbenchStore {
   private markSaved(uri: FileUri, state: DocumentState) {
     const record = this.records.get(uri)
     if (!record) return
-    void record.journal.rebase(record.opened.stat.version)
-    this.records.set(uri, { ...record, savedVersion: state.version, version: state.version, conflict: false, preview: false })
+    // What was written, not where the text is now: an edit or an undo during the write stays unsaved.
+    const saved = state.saved ?? state.version
+    void record.journal.rebase(record.opened.stat.version, saved)
+    this.records.set(uri, { ...record, savedVersion: saved, version: state.version, conflict: false, preview: false })
     this.publish()
   }
 

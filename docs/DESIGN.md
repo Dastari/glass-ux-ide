@@ -659,6 +659,8 @@ glass-ux-ide/
   save, until the next save, because the steps before it are not in the journal.
 - Document sync and Compare with saved cover files up to 5 MB.
 - Code windows do not pop out: a popup is another page without this one's documents or keymap.
+- Under Playwright's WebKit, every write to the origin private file system (`browserFiles`) fails with
+  "an unknown transient reason", so that test is marked as known to fail there. Safari has not been tried.
 - glass-ux follow-ups are in [glass-ux-request.md](glass-ux-request.md), at the end.
 
 ## 21. Risks

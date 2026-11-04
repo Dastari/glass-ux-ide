@@ -6,7 +6,7 @@
     <title>Editor lab</title>
     <style>
       html, body { height: 100%; margin: 0; background: #0c0f13; color: #e6e8eb; }
-      body { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; font: 13px system-ui, sans-serif; }
+      body { display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; font: 13px system-ui, sans-serif; }
       header, footer { display: flex; gap: 12px; align-items: center; padding: 6px 10px; }
       #editor { min-height: 0; }
     </style>
@@ -20,6 +20,7 @@
     </header>
     <main id="editor"></main>
     <footer id="status" aria-live="off"></footer>
+    <button id="after" type="button">After the editor</button>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>

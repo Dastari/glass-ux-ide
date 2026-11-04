@@ -14,6 +14,8 @@ export interface DocumentState {
   canUndo: boolean
   canRedo: boolean
   tier: Tier
+  /** After a save: the step that was written, which edits made during the write may have moved on from. */
+  saved?: number
 }
 
 /** One step of a document's history, as plain data. */
@@ -147,7 +149,7 @@ export function localHandle(doc: TextDocument): DocumentHandle {
       return run
     },
     save(target, options) {
-      return doc.save(target, options).then(() => stateOf(doc))
+      return doc.save(target, options).then((saved) => ({ ...stateOf(doc), saved }))
     },
     findNext: (query, from) =>
       after(async () => {

@@ -35,8 +35,8 @@ export interface JournalSink {
 
 /** A handle that journals its changes. */
 export interface JournaledHandle extends DocumentHandle {
-  /** Starts again from a new base, as after a save. */
-  rebase(base: string): Promise<void>
+  /** Starts again from a new base, as after a save of step `saved` (default: the current one). */
+  rebase(base: string, saved?: number): Promise<void>
   /** Applies a journal recorded against the same base, then keeps journaling from there. */
   replay(entry: JournalEntry): Promise<DocumentState>
 }
@@ -109,12 +109,13 @@ export async function journaled(handle: DocumentHandle, base: string, sink: Jour
     replaceAll(query, replacement) {
       return pass(handle.replaceAll(query, replacement), () => ({ kind: "replaceAll", query, replacement }))
     },
-    async rebase(next) {
+    async rebase(next, saved = last) {
       await chain
       current = next
       ops = []
-      lost = false
-      steps = new Map([[last, 0]])
+      // Edits made while the file was being written are not in the journal from the new base.
+      lost = saved !== last
+      steps = new Map([[saved, 0]])
       nextStep = 1
       publish()
     },

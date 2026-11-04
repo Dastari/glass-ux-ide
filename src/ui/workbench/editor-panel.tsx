@@ -156,9 +156,12 @@ export function OpenEditor({ record, primary = true }: { record: OpenRecord; pri
   useEffect(() => {
     if (!view) return
     // Commands act on the editor of a file that last had focus.
+    // Some browsers fire focus synchronously while React is committing, so the store waits a tick.
     const focused = () => {
-      if (store.get(uri)?.view !== view) store.patch(uri, { view })
       findRequests.focus(uri, requestRef.current)
+      queueMicrotask(() => {
+        if (store.get(uri) && store.get(uri)?.view !== view) store.patch(uri, { view })
+      })
     }
     view.root.addEventListener("focusin", focused)
     // Every editor of the file is listed, so a change in one redraws the others.

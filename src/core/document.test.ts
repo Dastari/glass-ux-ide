@@ -182,6 +182,27 @@ describe("TextDocument", () => {
 })
 
 describe("saving", () => {
+  it("says which step it wrote, when an edit lands during the write", async () => {
+    const document = TextDocument.open(memorySource(encoder.encode("ab")))
+    await document.edit([{ start: 2, end: 2, text: "c" }])
+    const written = document.current.id
+    let release!: () => void
+    const held = new Promise<void>((resolve) => (release = resolve))
+    const saving = document.save({
+      async write({ stream }) {
+        const parts: Uint8Array[] = []
+        for await (const part of stream()) parts.push(part)
+        await held
+        return memorySource(parts[0] ?? new Uint8Array())
+      },
+    })
+    const editing = document.edit([{ start: 0, end: 0, text: ">" }])
+    release()
+    expect(await saving).toBe(written)
+    await editing
+    expect(document.current.id).not.toBe(written)
+  })
+
   const target = (written: { text?: string; edits?: readonly ByteEdit[]; commits: number }): SaveTarget => ({
     async write({ stream, edits }) {
       const parts: Uint8Array[] = []
