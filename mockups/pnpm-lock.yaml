@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       glass-ux:
-        specifier: file:../vendor/glass-ux-0.17.1.tgz
-        version: file:../vendor/glass-ux-0.17.1.tgz(@playwright/test@1.64.0)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33)
+        specifier: file:../vendor/glass-ux-0.18.0.tgz
+        version: file:../vendor/glass-ux-0.18.0.tgz(@playwright/test@1.64.0)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33)
       react:
         specifier: 19.3.0
         version: 19.3.0
@@ -831,9 +831,9 @@ packages:
   gl-matrix@3.4.4:
     resolution: {integrity: sha512-latSnyDNt/8zYUB6VIJ6PCh2jBjJX6gnDsoCZ7LyW7GkqrD51EWwa9qCoGixj8YqBtETQK/xY7OmpTF8xz1DdQ==}
 
-  glass-ux@file:../vendor/glass-ux-0.17.1.tgz:
-    resolution: {integrity: sha512-fogo/l7qRF33ENuetTNxjXWevO2h4Q9tzCRkvmssIfBLQ0uq2er6EHpfn4g4pOPdkiBOf9DZOIyKyIUCGjafew==, tarball: file:../vendor/glass-ux-0.17.1.tgz}
-    version: 0.17.1
+  glass-ux@file:../vendor/glass-ux-0.18.0.tgz:
+    resolution: {integrity: sha512-8OG1+jkrEe3g/lZEkTtx0BtFCuRVdTBcIu0jnules9zAsOMGVhzs84UHSs4vaumWj9BHfZdhdX8oKS4THp+fUw==, tarball: file:../vendor/glass-ux-0.18.0.tgz}
+    version: 0.18.0
     engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
@@ -2202,7 +2202,7 @@ snapshots:
 
   gl-matrix@3.4.4: {}
 
-  glass-ux@file:../vendor/glass-ux-0.17.1.tgz(@playwright/test@1.64.0)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33):
+  glass-ux@file:../vendor/glass-ux-0.18.0.tgz(@playwright/test@1.64.0)(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33):
     dependencies:
       '@base-ui/react': 1.9.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@lexical/code': 0.52.0(typescript@6.0.3)
