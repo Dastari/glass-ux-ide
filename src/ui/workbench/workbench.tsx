@@ -161,7 +161,7 @@ function Frame({ brand, actions, account, views, inspector }: Pick<WorkbenchProp
         topBar={
           <TopBar
             module={<WorkbenchMenubar viewCommands={viewCommands} />}
-            search={<SearchTrigger shortcut="" onOpen={workbench.quickOpen} />}
+            search={<SearchTrigger shortcut="" placeholder={messages.quickOpen} onOpen={workbench.quickOpen} />}
             actions={
               <>
                 {actions}

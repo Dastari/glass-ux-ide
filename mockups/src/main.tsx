@@ -11,7 +11,6 @@ import { registerMessagePack } from "glass-ux/i18n"
 import glassArabic from "glass-ux/i18n/ar"
 import { LocaleProvider } from "glass-ux/locale"
 import ideArabic from "../../src/i18n/ar.ts"
-import { combineMessagePacks } from "../../src/ui/workbench/index.ts"
 import { LocaleContext } from "./chrome"
 import { LiveScreen } from "./live"
 import { A11yScreen, BackendScreen, ComponentsScreen, DocsScreen, EmbedScreen, HistoryScreen, HugeScreen, PaletteScreen, RemoteScreen, SplitScreen, WorkbenchScreen } from "./screens"
@@ -37,7 +36,8 @@ const SCREENS: { id: string; label: string; view: ComponentType }[] = [
   { id: "a11y", label: "Accessibility", view: A11yScreen },
 ]
 
-registerMessagePack(combineMessagePacks(glassArabic, ideArabic))
+registerMessagePack(glassArabic)
+registerMessagePack(ideArabic)
 
 const params = new URLSearchParams(location.search)
 const SHOT = params.has("shot")

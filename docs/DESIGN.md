@@ -1,6 +1,6 @@
 # Glass UX IDE: design
 
-Status: 4 November 2026, version 0.1.2, on glass-ux 0.16.1. Built: the text engine, undo across
+Status: 4 November 2026, version 0.1.2, on glass-ux 0.17.1. Built: the text engine, undo across
 saves, crash recovery, `EditorView`, `CodeEditor`, `CodeViewer`, `CodeField`, the `Workbench` and
 each of its parts, code windows, project search, comparing with saved, hover, go to definition,
 rename, document sync, a built-in formatter, five languages, browser file providers, 11 language
@@ -617,9 +617,9 @@ requests in [glass-ux-request.md](glass-ux-request.md) all shipped in glass-ux 0
 
 Still drawn or held here: nothing the workbench needs. `src/ui/workbench/layout.ts` builds three
 changes from `pane-layout`'s functions: showing a panel without moving it, collapsing a stack, and
-renaming a panel in place. `combineMessagePacks` exists because registering a second pack for a language
-replaces the first. `SearchTrigger` ignores `aria-label`, so a custom placeholder fails label in
-name, and the workbench keeps the default wording.
+renaming a panel in place. `combineMessagePacks` is still exported, though glass-ux 0.17.1 merges packs for one language
+and nothing here calls it. `SearchTrigger` follows a custom `placeholder` in its name since 0.17.1,
+and the workbench passes `messages.quickOpen`.
 
 ## 19. Repository layout
 

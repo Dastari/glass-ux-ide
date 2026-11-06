@@ -1,6 +1,5 @@
 import { useSyncExternalStore, type ReactNode } from "react";
 import { registerMessagePack, type MessagePack } from "glass-ux/i18n";
-import { combineMessagePacks } from "glass-ux-ide/workbench";
 import { configureLocale, DirectionProvider, localeDirection, type TextDirection } from "glass-ux/locale";
 
 /** The interface languages the docs can preview, by their own names. */
@@ -46,7 +45,8 @@ const known = (value: string | null): value is DocsLanguage => LANGUAGES.some((l
 export async function setDocsLanguage(language: DocsLanguage, remember = true) {
   if (language !== "en") {
     const [glass, ide] = await Promise.all([PACKS[language](), IDE_PACKS[`../../../src/i18n/${language}.ts`]!()]);
-    registerMessagePack(combineMessagePacks(glass.default, ide.default));
+    registerMessagePack(glass.default);
+    registerMessagePack(ide.default);
   }
   const direction = language === "en" ? "ltr" : localeDirection(language);
   configureLocale(language === "en" ? undefined : language);
