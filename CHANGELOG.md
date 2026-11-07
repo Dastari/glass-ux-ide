@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Uses glass-ux 0.19.1 and the matching docs kit.
+
 ## 0.1.3 (7 November 2026)
 
 - Uses glass-ux 0.19.0 and the matching docs kit. Needs glass-ux 0.19.
