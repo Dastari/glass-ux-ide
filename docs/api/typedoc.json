@@ -28965,9 +28965,9 @@
 					"sources": [
 						{
 							"fileName": "src/ui/workbench/messages.ts",
-							"line": 126,
+							"line": 127,
 							"character": 13,
-							"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.2/src/ui/workbench/messages.ts#L126"
+							"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.2/src/ui/workbench/messages.ts#L127"
 						}
 					],
 					"signatures": [
@@ -28981,24 +28981,35 @@
 								"summary": [
 									{
 										"kind": "text",
-										"text": "Joins language packs for one language into one. Registering a second pack for a language replaces\nthe first, so register glass-ux's words and these together:\n"
-									},
+										"text": "Joins language packs for one language into one."
+									}
+								],
+								"blockTags": [
 									{
-										"kind": "code",
-										"text": "`registerMessagePack(combineMessagePacks(glassUxArabic, workbenchArabic))`"
-									},
-									{
-										"kind": "text",
-										"text": "."
+										"tag": "@deprecated",
+										"content": [
+											{
+												"kind": "text",
+												"text": "Since glass-ux 0.17.1, packs for one language merge when registered. Call\n"
+											},
+											{
+												"kind": "code",
+												"text": "`registerMessagePack`"
+											},
+											{
+												"kind": "text",
+												"text": " once for glass-ux's pack and once for the workbench's."
+											}
+										]
 									}
 								]
 							},
 							"sources": [
 								{
 									"fileName": "src/ui/workbench/messages.ts",
-									"line": 126,
+									"line": 127,
 									"character": 35,
-									"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.2/src/ui/workbench/messages.ts#L126"
+									"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.2/src/ui/workbench/messages.ts#L127"
 								}
 							],
 							"parameters": [

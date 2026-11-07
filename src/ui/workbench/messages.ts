@@ -119,9 +119,10 @@ declare module "glass-ux/i18n/catalog" {
 export const defineWorkbenchPack = (locale: string, words: WorkbenchWords): MessagePack => defineMessagePack(locale, { ideWorkbench: words })
 
 /**
- * Joins language packs for one language into one. Registering a second pack for a language replaces
- * the first, so register glass-ux's words and these together:
- * `registerMessagePack(combineMessagePacks(glassUxArabic, workbenchArabic))`.
+ * Joins language packs for one language into one.
+ *
+ * @deprecated Since glass-ux 0.17.1, packs for one language merge when registered. Call
+ * `registerMessagePack` once for glass-ux's pack and once for the workbench's.
  */
 export const combineMessagePacks = (first: MessagePack, ...rest: readonly MessagePack[]): MessagePack =>
   defineMessagePack(first.locale, Object.assign({}, first.messages, ...rest.map((pack) => pack.messages)) as MessageOverrides)

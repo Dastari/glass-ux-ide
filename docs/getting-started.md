@@ -81,15 +81,15 @@ place the parts where they belong.
 ## Languages and direction
 
 Every word comes from `workbenchMessages`, with a pack for each of glass-ux's languages under
-`glass-ux-ide/i18n/<tag>`. Registering a second pack for a language replaces the first, so join them:
+`glass-ux-ide/i18n/<tag>`. Packs for one language merge, so register both:
 
 ```ts
 import { registerMessagePack } from "glass-ux/i18n"
 import glassUx from "glass-ux/i18n/ar"
 import workbench from "glass-ux-ide/i18n/ar"
-import { combineMessagePacks } from "glass-ux-ide/workbench"
 
-registerMessagePack(combineMessagePacks(glassUx, workbench))
+registerMessagePack(glassUx)
+registerMessagePack(workbench)
 ```
 
 ## What to read next

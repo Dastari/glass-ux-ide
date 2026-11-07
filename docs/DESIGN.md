@@ -617,8 +617,8 @@ requests in [glass-ux-request.md](glass-ux-request.md) all shipped in glass-ux 0
 
 Still drawn or held here: nothing the workbench needs. `src/ui/workbench/layout.ts` builds three
 changes from `pane-layout`'s functions: showing a panel without moving it, collapsing a stack, and
-renaming a panel in place. `combineMessagePacks` is still exported, though glass-ux 0.17.1 merges packs for one language
-and nothing here calls it. `SearchTrigger` follows a custom `placeholder` in its name since 0.17.1,
+renaming a panel in place. `combineMessagePacks` is deprecated, since glass-ux 0.17.1 merges packs for one language, and goes
+in a later release. `SearchTrigger` follows a custom `placeholder` in its name since 0.17.1,
 and the workbench passes `messages.quickOpen`.
 
 ## 19. Repository layout
