@@ -1,8 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.1.3 (7 November 2026)
 
-- Uses glass-ux 0.18.0 and the matching docs kit. Needs glass-ux 0.18.
+- Uses glass-ux 0.19.0 and the matching docs kit. Needs glass-ux 0.19.
 - `combineMessagePacks` is deprecated, and goes in a later release. Glass-ux merges packs for one
   language, so call `registerMessagePack` once for each.
 

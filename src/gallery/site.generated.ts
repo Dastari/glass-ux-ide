@@ -7,9 +7,9 @@ import families from "./families.generated.json";
 export const site = {
   title: "Glass UX IDE",
   packageName: "glass-ux-ide",
-  version: "0.1.2",
+  version: "0.1.3",
   repositoryUrl: "https://github.com/Dastari/glass-ux-ide",
-  docsSourceUrl: "https://github.com/Dastari/glass-ux-ide/blob/v0.1.2/docs/",
+  docsSourceUrl: "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/docs/",
   collections: [],
   badges: {},
   guides: [{"id":"getting-started","title":"Getting started"},{"id":"backends","title":"Backends"},{"id":"code-windows","title":"Code windows"},{"id":"performance","title":"Performance"}] as { id: string; title: string }[],
