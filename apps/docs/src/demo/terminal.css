@@ -29,3 +29,9 @@
   color: var(--fg);
   font: inherit;
 }
+/* Glass UX's 16px touch floor is in a cascade layer, which `font: inherit` above outranks. */
+@media (pointer: coarse) {
+  .demo-terminal-prompt input {
+    font-size: max(16px, 1em);
+  }
+}

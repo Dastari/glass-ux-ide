@@ -530,9 +530,12 @@ test.describe("layout", () => {
   })
 
   test("a phone gets a full editor and the files in a sheet", async ({ browser }) => {
-    const page = await (await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true })).newPage()
+    const page = await (await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true })).newPage()
     await page.goto(URL)
     await rows(page).first().waitFor({ timeout: 30_000 })
+    // At 16px or more, iPhone Safari does not zoom the page when the editor takes focus.
+    const typing = await page.locator(".gux-editor-mount:visible .gux-input").first().evaluate((input) => parseFloat(getComputedStyle(input).fontSize))
+    expect(typing).toBeGreaterThanOrEqual(16)
     const box = (await page.locator(".gux-editor-mount:visible").boundingBox())!
     expect(box.height).toBeGreaterThan(400)
     const bar = (await page.getByRole("navigation", { name: "Workbench views" }).last().boundingBox())!

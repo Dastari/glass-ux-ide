@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-- Uses glass-ux 0.19.1 and the matching docs kit.
+- Uses glass-ux 0.19.2 and the matching docs kit, and needs it. On touch screens the editor's input
+  now has at least 16 px text, so iPhone Safari no longer zooms the page when the editor takes focus.
 
 ## 0.1.3 (7 November 2026)
 

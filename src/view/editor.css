@@ -167,6 +167,16 @@
   line-height: inherit;
   white-space: pre;
 }
+/*
+ * iPhone Safari zooms the page when a focused field's text is under 16 CSS px. Glass UX sets that floor
+ * in a cascade layer, which the rule above outranks, and the view also runs without Glass UX, so it sets
+ * the floor itself. The input is invisible except while composing, so only composed text grows.
+ */
+@media (pointer: coarse) {
+  .gux-input {
+    font-size: max(16px, 1em); /* tokens:allow iOS Safari's zoom threshold is in CSS px, not the UI scale */
+  }
+}
 /* During composition the input shows what is being composed, where it will land. */
 .gux-input[data-composing] {
   inline-size: auto;
