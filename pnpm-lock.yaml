@@ -36,11 +36,11 @@ importers:
         specifier: 6.1.2
         version: 6.1.2(vite@8.3.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))
       glass-ux:
-        specifier: file:vendor/glass-ux-0.19.3.tgz
-        version: file:vendor/glass-ux-0.19.3.tgz(@playwright/test@1.64.0)(@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33)
+        specifier: file:vendor/glass-ux-0.19.4.tgz
+        version: file:vendor/glass-ux-0.19.4.tgz(@playwright/test@1.64.0)(@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33)
       glass-ux-docs-kit:
-        specifier: file:vendor/glass-ux-docs-kit-0.19.3.tgz
-        version: file:vendor/glass-ux-docs-kit-0.19.3.tgz(glass-ux@file:vendor/glass-ux-0.19.3.tgz(@playwright/test@1.64.0)(@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33))(prettier@3.9.10)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typedoc@0.28.20(typescript@6.0.3))(typescript@6.0.3)(vite@8.3.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))
+        specifier: file:vendor/glass-ux-docs-kit-0.19.4.tgz
+        version: file:vendor/glass-ux-docs-kit-0.19.4.tgz(glass-ux@file:vendor/glass-ux-0.19.4.tgz(@playwright/test@1.64.0)(@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33))(prettier@3.9.10)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typedoc@0.28.20(typescript@6.0.3))(typescript@6.0.3)(vite@8.3.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))
       jsdom:
         specifier: ^30.1.2
         version: 30.1.3
@@ -1183,9 +1183,9 @@ packages:
   gl-matrix@3.4.4:
     resolution: {integrity: sha512-latSnyDNt/8zYUB6VIJ6PCh2jBjJX6gnDsoCZ7LyW7GkqrD51EWwa9qCoGixj8YqBtETQK/xY7OmpTF8xz1DdQ==}
 
-  glass-ux-docs-kit@file:vendor/glass-ux-docs-kit-0.19.3.tgz:
-    resolution: {integrity: sha512-0uR3uAXrty4er7MVQM5m96pCkETqFal4vBYm9g6aTb6XKdxBvl3LeSbZlEKFEUkLft34yuMKzW9cOx/AJxvmJA==, tarball: file:vendor/glass-ux-docs-kit-0.19.3.tgz}
-    version: 0.19.3
+  glass-ux-docs-kit@file:vendor/glass-ux-docs-kit-0.19.4.tgz:
+    resolution: {integrity: sha512-GoPdc1RsBB6Eyb7OigfhvCKTjnqT4jTqr0Gj2eQLI3lUv34+3FIvGw5jOroKQkR0ej5/IwJ0atph3itzW29NvQ==, tarball: file:vendor/glass-ux-docs-kit-0.19.4.tgz}
+    version: 0.19.4
     engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
@@ -1200,9 +1200,9 @@ packages:
       vite:
         optional: true
 
-  glass-ux@file:vendor/glass-ux-0.19.3.tgz:
-    resolution: {integrity: sha512-xwrVRPVnSLxBiPCwOZww9YzHOh4LmzqoFqh+yRd0wxDzM2xcGe9YWbbdGqYrFyyKJc0aVfZv0CAV/yAxidemBA==, tarball: file:vendor/glass-ux-0.19.3.tgz}
-    version: 0.19.3
+  glass-ux@file:vendor/glass-ux-0.19.4.tgz:
+    resolution: {integrity: sha512-4q13/9AnbyjpooiXS3Vh9GEUJ2BGD6TqCFrpUN+6/8NddO6+zp5BTChxzuu9sqb7QbXUa/Qp50s/HO5WVm6o/Q==, tarball: file:vendor/glass-ux-0.19.4.tgz}
+    version: 0.19.4
     engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
@@ -3021,10 +3021,10 @@ snapshots:
 
   gl-matrix@3.4.4: {}
 
-  glass-ux-docs-kit@file:vendor/glass-ux-docs-kit-0.19.3.tgz(glass-ux@file:vendor/glass-ux-0.19.3.tgz(@playwright/test@1.64.0)(@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33))(prettier@3.9.10)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typedoc@0.28.20(typescript@6.0.3))(typescript@6.0.3)(vite@8.3.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1)):
+  glass-ux-docs-kit@file:vendor/glass-ux-docs-kit-0.19.4.tgz(glass-ux@file:vendor/glass-ux-0.19.4.tgz(@playwright/test@1.64.0)(@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33))(prettier@3.9.10)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typedoc@0.28.20(typescript@6.0.3))(typescript@6.0.3)(vite@8.3.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1)):
     dependencies:
       clsx: 2.1.1
-      glass-ux: file:vendor/glass-ux-0.19.3.tgz(@playwright/test@1.64.0)(@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33)
+      glass-ux: file:vendor/glass-ux-0.19.4.tgz(@playwright/test@1.64.0)(@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33)
       postcss: 8.5.30
       prettier: 3.9.10
       react: 19.3.0
@@ -3034,7 +3034,7 @@ snapshots:
     optionalDependencies:
       vite: 8.3.4(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1)
 
-  glass-ux@file:vendor/glass-ux-0.19.3.tgz(@playwright/test@1.64.0)(@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33):
+  glass-ux@file:vendor/glass-ux-0.19.4.tgz(@playwright/test@1.64.0)(@testing-library/react@16.3.3(@testing-library/dom@10.4.2)(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@6.0.3)(yjs@13.6.33):
     dependencies:
       '@base-ui/react': 1.9.0(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@lexical/code': 0.52.0(typescript@6.0.3)
