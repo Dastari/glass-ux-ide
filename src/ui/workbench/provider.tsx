@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react"
 import { AlertDialog } from "glass-ux/alert-dialog"
-import { AppearanceSettings } from "glass-ux/appearance-settings"
+import { AppearanceSettings, DEFAULT_APPEARANCE_SECTIONS } from "glass-ux/appearance-settings"
 import { useCommandPalette } from "glass-ux/command-palette"
 import { Dialog } from "glass-ux/dialog"
 import { Button } from "glass-ux/button"
@@ -62,6 +62,8 @@ const folderOf = (uri: FileUri) => {
 }
 const reasonOf = (error: unknown) => (error instanceof Error ? error.message : String(error))
 const NO_PANELS: readonly WorkbenchPanel[] = []
+/** Glass or Flat first, then glass-ux's usual sections. */
+const APPEARANCE_SECTIONS = ["style", ...DEFAULT_APPEARANCE_SECTIONS.filter((section) => section !== "style")] as const
 
 const startLayout = (panels: readonly WorkbenchPanel[]) =>
   layoutOf(column(sized(stack("welcome"), 3), sized(stack("problems", "output", ...panels.map((item) => item.id)), "12rem"))) // tokens:allow PaneLayout takes rem, which follows UI scale
@@ -516,7 +518,7 @@ function Model({ backend, lexers, initialFiles, createWorker = defaultWorker, pa
             <Dialog.Popup>
               <Dialog.Header title={messages.appearance} />
               <Dialog.Body>
-                <AppearanceSettings />
+                <AppearanceSettings sections={APPEARANCE_SECTIONS} />
               </Dialog.Body>
             </Dialog.Popup>
           </Dialog.Root>

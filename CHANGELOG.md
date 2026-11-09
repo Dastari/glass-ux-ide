@@ -2,8 +2,10 @@
 
 ## Unreleased
 
-- Uses glass-ux 0.19.2 and the matching docs kit, and needs it. On touch screens the editor's input
-  now has at least 16 px text, so iPhone Safari no longer zooms the page when the editor takes focus.
+- Uses glass-ux 0.19.3 and the matching docs kit, and needs it.
+- The Appearance dialog offers Glass or Flat first, with glass-ux's own style section.
+- On touch screens the editor's input has at least 16 px text, so iPhone Safari no longer zooms the page
+  when the editor takes focus.
 
 ## 0.1.3 (7 November 2026)
 
