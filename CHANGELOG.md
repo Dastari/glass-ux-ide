@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Uses glass-ux 0.19.6 and the matching docs kit, and needs 0.19.3 or later. The docs site skips
+- Uses glass-ux 0.19.7 and the matching docs kit, and needs 0.19.3 or later. The docs site skips
   drawing examples far from view; their editors draw again when scrolled back to.
 - The Appearance dialog offers Glass or Flat first, with glass-ux's own style section, which includes
   Blur from glass-ux 0.19.4.
