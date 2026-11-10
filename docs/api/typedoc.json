@@ -32569,11 +32569,11 @@
 	"readme": [
 		{
 			"kind": "text",
-			"text": "# Glass UX IDE\n\nA code editor, reusable editing components and backend interfaces for\n[glass-ux](https://github.com/Dastari/glass-ux) applications. It is a component library: applications\nconnect it to their own backend, or use just the editor. It ships no server software.\n\nVersion 0.1.3. Install it from the release, beside glass-ux 0.19.7:\n\n"
+			"text": "# Glass UX IDE\n\nA code editor, reusable editing components and backend interfaces for\n[glass-ux](https://github.com/Dastari/glass-ux) applications. It is a component library: applications\nconnect it to their own backend, or use just the editor. It ships no server software.\n\nVersion 0.1.3. Install it from the release, beside glass-ux 0.19.8:\n\n"
 		},
 		{
 			"kind": "code",
-			"text": "```sh\npnpm add \\\n  https://github.com/Dastari/glass-ux/releases/download/v0.19.7/glass-ux-0.19.7.tgz \\\n  https://github.com/Dastari/glass-ux-ide/releases/download/v0.1.3/glass-ux-ide-0.1.3.tgz\n```"
+			"text": "```sh\npnpm add \\\n  https://github.com/Dastari/glass-ux/releases/download/v0.19.8/glass-ux-0.19.8.tgz \\\n  https://github.com/Dastari/glass-ux-ide/releases/download/v0.1.3/glass-ux-ide-0.1.3.tgz\n```"
 		},
 		{
 			"kind": "text",

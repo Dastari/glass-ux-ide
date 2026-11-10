@@ -27,6 +27,9 @@ function ComponentLinks({ items }: { items: Array<[string, string]> }) {
   );
 }
 
+/** Each measured figure opens the guide that says how it was measured. */
+const performanceLink = <Link to="/guides/$guide" params={{ guide: "performance" }} />;
+
 const nameOf = (path: string) => path.split("/").pop() ?? path;
 
 /** A `CodeEditor` in a managed window: a kind says how to title it, and the body is the editor. */
@@ -119,10 +122,10 @@ export function Showcase() {
           <h2 id="sizes-title">Measured on real files</h2>
         </div>
         <div className="showcase-metrics">
-          <Panel><PanelBody><Metric label="Open a 20 GB file" value={56} unit="ms" /></PanelBody></Panel>
-          <Panel><PanelBody><Metric label="Keystroke, slowest 1%" value={6.3} unit="ms" /></PanelBody></Panel>
-          <Panel><PanelBody><Metric label="Page memory at 20 GB" value={10} unit="MB" /></PanelBody></Panel>
-          <Panel><PanelBody><Metric label="Slow frames in 240 while scrolling" value={0} /></PanelBody></Panel>
+          <Panel><PanelBody><Metric label="Open a 20 GB file" value={56} unit="ms" render={performanceLink} className="showcase-metric" /></PanelBody></Panel>
+          <Panel><PanelBody><Metric label="Keystroke, slowest 1%" value={6.3} unit="ms" render={performanceLink} className="showcase-metric" /></PanelBody></Panel>
+          <Panel><PanelBody><Metric label="Page memory at 20 GB" value={10} unit="MB" render={performanceLink} className="showcase-metric" /></PanelBody></Panel>
+          <Panel><PanelBody><Metric label="Slow frames in 240 while scrolling" value={0} render={performanceLink} className="showcase-metric" /></PanelBody></Panel>
         </div>
       </section>
 

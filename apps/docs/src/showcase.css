@@ -112,6 +112,10 @@
     grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
     gap: var(--gap-panels);
   }
+  /* A Metric reads its tier from its own box, so the box needs a height: the label above the figure. */
+  .showcase-metric {
+    block-size: 6rem;
+  }
   .showcase-editors {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
