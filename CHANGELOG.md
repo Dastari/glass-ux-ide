@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-- Uses glass-ux 0.19.4 and the matching docs kit, and needs 0.19.3 or later.
+- Uses glass-ux 0.19.5 and the matching docs kit, and needs 0.19.3 or later. The docs site skips
+  drawing examples far from view; their editors draw again when scrolled back to.
 - The Appearance dialog offers Glass or Flat first, with glass-ux's own style section, which includes
   Blur from glass-ux 0.19.4.
 - On touch screens the editor's input has at least 16 px text, so iPhone Safari no longer zooms the page
