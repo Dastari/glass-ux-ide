@@ -2,13 +2,15 @@
 
 ## Unreleased
 
-- Uses glass-ux 0.19.9 and the matching docs kit, and needs 0.19.3 or later. The docs site skips
+- Uses glass-ux 0.19.10 and the matching docs kit, and needs 0.19.3 or later. The docs site skips
   drawing examples far from view; their editors draw again when scrolled back to. Each measured
   figure on the landing page links to the performance guide.
 - The Appearance dialog offers Glass or Flat first, with glass-ux's own style section, which includes
   Blur from glass-ux 0.19.4.
 - On touch screens the editor's input has at least 16 px text, so iPhone Safari no longer zooms the page
   when the editor takes focus.
+- In a file too large to index, a small scroll up after the scrollbar settles moves the full distance.
+  A browser that rounds the scroll position (newer Firefox) used to lose a row.
 
 ## 0.1.3 (7 November 2026)
 

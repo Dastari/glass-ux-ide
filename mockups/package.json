@@ -9,18 +9,18 @@
     "shots": "node scripts/screenshots.mjs"
   },
   "dependencies": {
-    "glass-ux": "file:../vendor/glass-ux-0.19.9.tgz",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "glass-ux": "file:../vendor/glass-ux-0.19.10.tgz",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
-    "vite": "8.3.4",
+    "vite": "8.3.8",
     "@vitejs/plugin-react": "6.1.2",
-    "tailwindcss": "4.3.3",
-    "@tailwindcss/vite": "4.3.3",
+    "tailwindcss": "4.3.5",
+    "@tailwindcss/vite": "4.3.5",
     "typescript": "~6.0.3",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@playwright/test": "1.64.0"
+    "@playwright/test": "1.65.1"
   }
 }

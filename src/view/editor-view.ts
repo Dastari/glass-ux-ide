@@ -462,11 +462,13 @@ export class EditorView {
     if (this.disposed || this.lineMode || !size) return
     const lastRow = this.rows.length > 0 && this.rows.length < this.viewportRows
     const scrollTop = this.top === 0 ? 0 : lastRow ? this.scrollRange : SCROLL_MARGIN + (this.top / size) * (this.scrollRange - SCROLL_MARGIN * 2)
-    this.anchor = { scrollTop, offset: this.top, rows: 0 }
     if (Math.abs(scrollTop - this.scroller.scrollTop) >= 1) {
       this.ignoreScroll = true
       this.scroller.scrollTop = scrollTop
     }
+    // Count from where the bar is, not where it was asked to go: a browser may round the position,
+    // and a fraction of a pixel short would lose a row from the next small scroll.
+    this.anchor = { scrollTop: this.scroller.scrollTop, offset: this.top, rows: 0 }
   }
 
   private rowShift(scrollTop: number) {
