@@ -30816,9 +30816,9 @@
 							"sources": [
 								{
 									"fileName": "src/view/editor-view.ts",
-									"line": 1081,
+									"line": 1083,
 									"character": 8,
-									"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1081"
+									"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1083"
 								}
 							],
 							"signatures": [
@@ -30839,9 +30839,9 @@
 									"sources": [
 										{
 											"fileName": "src/view/editor-view.ts",
-											"line": 1081,
+											"line": 1083,
 											"character": 8,
-											"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1081"
+											"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1083"
 										}
 									],
 									"type": {
@@ -31427,9 +31427,9 @@
 							"sources": [
 								{
 									"fileName": "src/view/editor-view.ts",
-									"line": 1074,
+									"line": 1076,
 									"character": 8,
-									"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1074"
+									"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1076"
 								}
 							],
 							"signatures": [
@@ -31450,9 +31450,9 @@
 									"sources": [
 										{
 											"fileName": "src/view/editor-view.ts",
-											"line": 1074,
+											"line": 1076,
 											"character": 8,
-											"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1074"
+											"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1076"
 										}
 									],
 									"type": {
@@ -32450,9 +32450,9 @@
 					"sources": [
 						{
 							"fileName": "src/view/editor-view.ts",
-							"line": 1206,
+							"line": 1208,
 							"character": 16,
-							"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1206"
+							"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1208"
 						}
 					],
 					"signatures": [
@@ -32473,9 +32473,9 @@
 							"sources": [
 								{
 									"fileName": "src/view/editor-view.ts",
-									"line": 1206,
+									"line": 1208,
 									"character": 16,
-									"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1206"
+									"url": "https://github.com/Dastari/glass-ux-ide/blob/v0.1.3/src/view/editor-view.ts#L1208"
 								}
 							],
 							"parameters": [
@@ -32569,11 +32569,11 @@
 	"readme": [
 		{
 			"kind": "text",
-			"text": "# Glass UX IDE\n\nA code editor, reusable editing components and backend interfaces for\n[glass-ux](https://github.com/Dastari/glass-ux) applications. It is a component library: applications\nconnect it to their own backend, or use just the editor. It ships no server software.\n\nVersion 0.1.3. Install it from the release, beside glass-ux 0.19.10:\n\n"
+			"text": "# Glass UX IDE\n\nA code editor, reusable editing components and backend interfaces for\n[glass-ux](https://github.com/Dastari/glass-ux) applications. It is a component library: applications\nconnect it to their own backend, or use just the editor. It ships no server software.\n\nVersion 0.1.3. Install it from the release, beside glass-ux 0.19.11:\n\n"
 		},
 		{
 			"kind": "code",
-			"text": "```sh\npnpm add \\\n  https://github.com/Dastari/glass-ux/releases/download/v0.19.10/glass-ux-0.19.10.tgz \\\n  https://github.com/Dastari/glass-ux-ide/releases/download/v0.1.3/glass-ux-ide-0.1.3.tgz\n```"
+			"text": "```sh\npnpm add \\\n  https://github.com/Dastari/glass-ux/releases/download/v0.19.11/glass-ux-0.19.11.tgz \\\n  https://github.com/Dastari/glass-ux-ide/releases/download/v0.1.3/glass-ux-ide-0.1.3.tgz\n```"
 		},
 		{
 			"kind": "text",

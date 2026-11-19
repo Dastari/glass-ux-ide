@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       glass-ux:
-        specifier: file:../vendor/glass-ux-0.19.10.tgz
-        version: file:../vendor/glass-ux-0.19.10.tgz(@playwright/test@1.65.1)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3)(yjs@13.6.33)
+        specifier: file:../vendor/glass-ux-0.19.11.tgz
+        version: file:../vendor/glass-ux-0.19.11.tgz(@playwright/test@1.65.1)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3)(yjs@13.6.33)
       react:
         specifier: 19.3.1
         version: 19.3.1
@@ -757,10 +757,6 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  d3-array@3.2.4:
-    resolution: {integrity: sha512-tdQAmyA18i4J7wprpYq8ClcxZy3SC31QMeByyCFyRt7BVHdREQZ5lpzoe5mFEYZUWe+oq8HBvk9JjpibyEV4Jg==}
-    engines: {node: '>=12'}
-
   d3-array@3.2.5:
     resolution: {integrity: sha512-Th8qGXoBalmWsstpkuhmBuTsBQIFqYOJtjlBvNVvBfJ8E3uYusBUwUR8HU20U0qKKQkgCvKyR1YjiozWadk5QA==}
     engines: {node: '>=12'}
@@ -858,9 +854,9 @@ packages:
   gl-matrix@3.4.4:
     resolution: {integrity: sha512-latSnyDNt/8zYUB6VIJ6PCh2jBjJX6gnDsoCZ7LyW7GkqrD51EWwa9qCoGixj8YqBtETQK/xY7OmpTF8xz1DdQ==}
 
-  glass-ux@file:../vendor/glass-ux-0.19.10.tgz:
-    resolution: {integrity: sha512-5OVOdvGUvpAVhd88hv8KrcEb39ykpKWHG2cVHJuNwih4eRYHoEP3lFf/dA0Y6KHHet5ueuxGi80KXbzWpEzUmw==, tarball: file:../vendor/glass-ux-0.19.10.tgz}
-    version: 0.19.10
+  glass-ux@file:../vendor/glass-ux-0.19.11.tgz:
+    resolution: {integrity: sha512-fgW8iOZkKLnkWOJ4zaoiAWJljA6frzapGvte9rAB1/84FkTz/g23v8l02gFLBpwnRdzVxI1b/9E431IydGxm/Q==, tarball: file:../vendor/glass-ux-0.19.11.tgz}
+    version: 0.19.11
     engines: {node: '>=22.12.0'}
     hasBin: true
     peerDependencies:
@@ -2122,10 +2118,6 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  d3-array@3.2.4:
-    dependencies:
-      internmap: 2.0.3
-
   d3-array@3.2.5:
     dependencies:
       internmap: 2.0.3
@@ -2144,7 +2136,7 @@ snapshots:
 
   d3-scale@4.0.3:
     dependencies:
-      d3-array: 3.2.4
+      d3-array: 3.2.5
       d3-format: 3.1.2
       d3-interpolate: 3.0.1
       d3-time: 3.1.0
@@ -2160,7 +2152,7 @@ snapshots:
 
   d3-time@3.1.0:
     dependencies:
-      d3-array: 3.2.4
+      d3-array: 3.2.5
 
   debug@4.4.3:
     dependencies:
@@ -2200,7 +2192,7 @@ snapshots:
 
   gl-matrix@3.4.4: {}
 
-  glass-ux@file:../vendor/glass-ux-0.19.10.tgz(@playwright/test@1.65.1)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3)(yjs@13.6.33):
+  glass-ux@file:../vendor/glass-ux-0.19.11.tgz(@playwright/test@1.65.1)(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@6.0.3)(yjs@13.6.33):
     dependencies:
       '@base-ui/react': 1.9.0(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@lexical/code': 0.53.0(typescript@6.0.3)
