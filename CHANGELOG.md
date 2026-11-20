@@ -1,8 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.1.4 (20 November 2026)
 
-- Uses glass-ux 0.19.11 and the matching docs kit, and needs 0.19.3 or later. The docs site skips
+- Uses glass-ux 0.19.11 (up from 0.19.0) and the matching docs kit, and needs 0.19.3 or later. The docs site skips
   drawing examples far from view; their editors draw again when scrolled back to. Each measured
   figure on the landing page links to the performance guide.
 - The Appearance dialog offers Glass or Flat first, with glass-ux's own style section, which includes

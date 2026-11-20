@@ -4,12 +4,12 @@ A code editor, reusable editing components and backend interfaces for
 [glass-ux](https://github.com/Dastari/glass-ux) applications. It is a component library: applications
 connect it to their own backend, or use just the editor. It ships no server software.
 
-Version 0.1.3. Install it from the release, beside glass-ux 0.19.11:
+Version 0.1.4. Install it from the release, beside glass-ux 0.19.11:
 
 ```sh
 pnpm add \
   https://github.com/Dastari/glass-ux/releases/download/v0.19.11/glass-ux-0.19.11.tgz \
-  https://github.com/Dastari/glass-ux-ide/releases/download/v0.1.3/glass-ux-ide-0.1.3.tgz
+  https://github.com/Dastari/glass-ux-ide/releases/download/v0.1.4/glass-ux-ide-0.1.4.tgz
 ```
 
 The [documentation site](https://dastari.github.io/glass-ux-ide/) has every component, the guides and
