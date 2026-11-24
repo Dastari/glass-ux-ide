@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Uses glass-ux 0.19.13 and the matching docs kit, and needs 0.19.3 or later. Glass-ux's controls
+  are named by the text they show (WCAG 2.5.3); the editor's own names already were, and an axe
+  check for it finds nothing on the docs site or the demo. Code windows also gain glass-ux's fix for
+  a Workspace render loop on a route change.
+
 ## 0.1.4 (20 November 2026)
 
 - Uses glass-ux 0.19.11 (up from 0.19.0) and the matching docs kit, and needs 0.19.3 or later. The docs site skips
