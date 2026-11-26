@@ -1178,7 +1178,7 @@ packages:
         optional: true
 
   glass-ux@file:vendor/glass-ux-0.19.14.tgz:
-    resolution: {integrity: sha512-3C0eVDBiNNlJyT1hOHxgcCQXLvlmw6P2dMYI9Nsf54wULsnEmgB6nlbiDosiJCNfY7t3TCIi+Oow65O+vRMxoA==, tarball: file:vendor/glass-ux-0.19.14.tgz}
+    resolution: {integrity: sha512-T/CtC6TlXBUQiihKzvFjHXgPwcHwJCu/etSu+Jvu3E1HK1BrfKGuSSMogdPuKloRvQylSqPlUJFY24LzPwDkrA==, tarball: file:vendor/glass-ux-0.19.14.tgz}
     version: 0.19.14
     engines: {node: '>=22.12.0'}
     hasBin: true
