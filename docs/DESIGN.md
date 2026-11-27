@@ -1,6 +1,6 @@
 # Glass UX IDE: design
 
-Status: 27 November 2026, version 0.1.4, on glass-ux 0.19.15. Built: the text engine, undo across
+Status: 27 November 2026, version 0.1.4, on glass-ux 0.19.16. Built: the text engine, undo across
 saves, crash recovery, `EditorView`, `CodeEditor`, `CodeViewer`, `CodeField`, the `Workbench` and
 each of its parts, code windows, project search, comparing with saved, hover, go to definition,
 rename, document sync, a built-in formatter, five languages, browser file providers, 11 language
