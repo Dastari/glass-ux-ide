@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Uses glass-ux 0.19.14 and the matching docs kit, and needs 0.19.3 or later. Light Flat has a
+- Uses glass-ux 0.19.15 and the matching docs kit, and needs 0.19.3 or later. Light Flat has a
   neutral off-white canvas; editors keep their own fill against it. Glass-ux's controls are named by
   the text they show (WCAG 2.5.3); the editor's own names already were, and an axe check for it
   finds nothing on the docs site or the demo. Code windows also gain glass-ux's fix for a Workspace
